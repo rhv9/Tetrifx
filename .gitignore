@@ -1,0 +1,13 @@
+# Directories
+.vs/
+/.vscode
+/bin/
+/bin-int/
+/vendor/*
+
+# Visual studio 
+**.sln
+**.vcxproj
+**.vcxproj.filters
+**.vcxproj.user
+
