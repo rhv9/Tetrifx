@@ -1,0 +1,3 @@
+[submodule "CowboyPewPew/vendor/GLFW"]
+	path = CowboyPewPew/vendor/GLFW
+	url = https://github.com/glfw/glfw
