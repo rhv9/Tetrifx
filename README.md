@@ -36,3 +36,7 @@ g++ -ICowboyPewPew\vendor\Glad\include\ -ICowboyPewPew\vendor\GLFW\include\ -c .
 g++ -o test.exe Main.o .\glad.o .\glfw.a -lgdi32 -o test.exe
 ```
 
+```
+em++ --use-port=contrib.glfw3 -sFULL_ES3 .\Main.o .\glad.o -o index.html 
+```
+

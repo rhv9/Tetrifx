@@ -4,6 +4,7 @@
 **/bin/
 **/bin-int/
 /vendor/*
+/build/**
 
 # Visual studio 
 **.sln

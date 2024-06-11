@@ -20,6 +20,7 @@ IncludeDir = {}
 IncludeDir["GLFW"] = "CowboyPewPew/vendor/GLFW/include"
 IncludeDir["Glad"] = "CowboyPewPew/vendor/Glad/include"
 IncludeDir["ImGui"] = "CowboyPewPew/vendor/imgui/include"
+IncludeDir["Emscripten"] = "CowboyPewPew/vendor/emscripten/system/include/emscripten"
 
 include "CowboyPewPew/vendor/glfw_premake5.lua"
 include "CowboyPewPew/vendor/Glad"
@@ -48,6 +49,8 @@ project "CowboyPewPew"
         "%{prj.name}/src",
         "%{IncludeDir.GLFW}",
         "%{IncludeDir.Glad}",
+        "%{IncludeDir.Emscripten}",
+        "CowboyPewPew/include",
     }
 
     links 
