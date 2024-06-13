@@ -18,6 +18,7 @@ outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
 
 IncludeDir = {}
 IncludeDir["GLFW"] = "CowboyPewPew/vendor/GLFW/include"
+IncludeDir["Spdlog"] = "CowboyPewPew/vendor/spdlog/include"
 IncludeDir["Glad"] = "CowboyPewPew/vendor/Glad/include"
 IncludeDir["ImGui"] = "CowboyPewPew/vendor/imgui/include"
 IncludeDir["Emscripten"] = "CowboyPewPew/vendor/emscripten/system/include/emscripten"
@@ -49,6 +50,7 @@ project "CowboyPewPew"
         "%{prj.name}/src",
         "%{IncludeDir.GLFW}",
         "%{IncludeDir.Glad}",
+        "%{IncludeDir.Spdlog}",
         "%{IncludeDir.Emscripten}",
         "CowboyPewPew/include",
     }
@@ -62,12 +64,14 @@ project "CowboyPewPew"
 
     filter "system:windows"
         systemversion "latest"
+        defines "PLATFORM_WINDOWS"
 
     filter "configurations:Debug"
         runtime "Debug"
+        defines "DEBUG"
         symbols "on"
 
-    filter "configurations:Debug"
+    filter "configurations:Release"
         runtime "Release"
         symbols "on"
 
