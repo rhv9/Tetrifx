@@ -5,10 +5,12 @@
 **/bin-int/
 /vendor/*
 /build/**
+**.log
+
+
 
 # Visual studio 
 **.sln
 **.vcxproj
 **.vcxproj.filters
 **.vcxproj.user
-
