@@ -13,32 +13,12 @@
 #include <glad/glad.h>
 #endif
 
-
-#include <GLFW/glfw3.h>
+#include <Platform/Windows/WindowsWindow.h>
 
 
 // Define variables
 unsigned int vbo, vao, ebo;
 unsigned int shaderProgram;
-GLFWwindow* window;
-
-void error_callback(int error, const char* description)
-{
-    fprintf(stderr, "GLFW Error: %s\n", description);
-}
-
-void openGLDebugCallback(GLenum source, GLenum type, GLuint id, GLenum severity, GLsizei length, const GLchar* message, const void* userParam)
-{
-    std::cerr << "OpenGL DEBUG MESSAGE(Severity" << severity << "): " << message << std::endl;
-}
-
-void ProcessInput(GLFWwindow* window)
-{
-    if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
-        glfwSetWindowShouldClose(window, true);
-
-
-}
 
 GLuint CreateShader(GLenum shaderType, const char* shaderSource)
 {
@@ -83,70 +63,25 @@ GLuint CreateShaderProgram(const char* vertexShaderSource, const char* fragmentS
     return shaderProgram;
 }
 
-void glfwErrorCallbackFunction(int error_code, const char* description)
-{
-    std::cout << "GLFW Error:: " << description << std::endl;
-}
+
 
 Game& Game::Instance()
 {
 	static Game instance;
-
 	return instance;
 }
 
-Game::Game()
+Game::Game() 
 {
 }
 
-bool Game::TryInit()
+void Game::Init()
 {
     Log::Init();
 
-    glfwSetErrorCallback(glfwErrorCallbackFunction);
+    m_Window = std::make_unique<WindowsWindow>(WindowProps { 800 , 600, "Cowboy3i" });
 
-#ifdef EMSCRIPTEN
-    std::cout << "EMSCRIPTEN mode!" << std::endl;
-    glfwInitHint(GLFW_PLATFORM, GLFW_PLATFORM_EMSCRIPTEN);
-#endif
-
-    if (!glfwInit())
-    {
-        std::cerr << "Failed to init glfw" << std::endl;
-        return false;
-    }
-
-    std::cout << "GLFW Version: " << glfwGetVersionString() << " | Platform: " << glfwGetPlatform() << std::endl;
-
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
-    glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-
-    // Construct the window
-    window = glfwCreateWindow(800, 600, "OpenGL Template", nullptr, nullptr);
-    if (!window)
-    {
-        std::cout << "Failed to create the GLFW window\n";
-        glfwTerminate();
-    }
-
-    glfwMakeContextCurrent(window);
-
-#ifndef EMSCRIPTEN
-    if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
-    {
-        std::cout << "Failed to initialize GLAD\n";
-        return false;
-    }
-#endif
-    // Handle view port dimensions
-    glViewport(0, 0, 800, 600);
-    glfwSetFramebufferSizeCallback(window, [](GLFWwindow* window, int width, int height)
-        {
-            glViewport(0, 0, width, height);
-        });
-
-    return true;
+    m_Running = true;
 }
 
 void Game::Start()
@@ -187,8 +122,6 @@ void main() {
 })FST";
 #endif
 
-
-
     shaderProgram = CreateShaderProgram(vertexShaderSource, fragmentShaderSource);
 
     float vertices[] = {
@@ -219,17 +152,14 @@ void main() {
 
 
 
-#ifdef EMSCRIPTEN
-    emscripten_set_main_loop(this->Loop, 60, GLFW_FALSE);
-#else
+    //emscripten_set_main_loop(this->Loop, 60, GLFW_FALSE);
+
     // This is the render loop
-    while (!glfwWindowShouldClose(window))
+    while (m_Running)
     {
         Iterate();
     }
 
-    glfwTerminate();
-#endif
 }
 
 void Game::Loop()
@@ -237,7 +167,7 @@ void Game::Loop()
 #ifdef EMSCRIPTEN
     if (!iter())
     {
-        glfwTerminate();
+        m_Window->Shutdown();
         emscripten_cancel_main_loop();
     }
 #endif
@@ -245,23 +175,23 @@ void Game::Loop()
 
 bool Game::Iterate()
 {
-    if (glfwWindowShouldClose(window))
+ 
+    if (!m_Running)
         return false;
 
-    ProcessInput(window);
     // Calculate FPS logic
     {
         auto timeNow = std::chrono::system_clock::now();
-        delta += timeNow - previousTime;
-        previousTime = timeNow;
+        m_Delta += timeNow - m_PreviousTime;
+        m_PreviousTime = timeNow;
 
-        if (delta.count() >= 1.0f)
+        if (m_Delta.count() >= 1.0f)
         {
-            delta--;
-            CORE_INFO("FPS: {}", fps);
-            fps = 0;
+            m_Delta--;
+            LOG_CORE_INFO("FPS: {}", m_Fps);
+            m_Fps = 0;
         }
-        fps++;
+        m_Fps++;
 
     }
 
@@ -275,10 +205,7 @@ bool Game::Iterate()
     glUseProgram(shaderProgram);
     glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_INT, 0);
 
-#ifndef EMSCRIPTEN
-    glfwSwapBuffers(window);
-#endif
-    glfwPollEvents();
+    m_Window->OnUpdate();
 
     return true;
 }
