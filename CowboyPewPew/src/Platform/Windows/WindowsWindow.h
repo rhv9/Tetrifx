@@ -20,7 +20,6 @@ public:
 private:
 	void Init(const WindowProps& windowProps);
 
-
 private:
 	struct WindowData
 	{

@@ -1,6 +1,8 @@
 #pragma once
 #include <Core/Window.h>
 
+#include "Graphics/Shader.h"
+
 class Game
 {
 public:
@@ -19,5 +21,6 @@ private:
 	bool m_Running = false;
 
 	Scope<Window> m_Window;
+	Ref<Shader> m_Shader;
 };
 

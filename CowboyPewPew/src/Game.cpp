@@ -18,51 +18,6 @@
 
 // Define variables
 unsigned int vbo, vao, ebo;
-unsigned int shaderProgram;
-
-GLuint CreateShader(GLenum shaderType, const char* shaderSource)
-{
-    unsigned int shader = glCreateShader(shaderType);
-    glShaderSource(shader, 1, &shaderSource, NULL);
-    glCompileShader(shader);
-    // check for shader compile errors
-    int success;
-    char infoLog[512];
-    glGetShaderiv(shader, GL_COMPILE_STATUS, &success);
-    if (!success)
-    {
-        glGetShaderInfoLog(shader, 512, NULL, infoLog);
-        std::cout << "ERROR::SHADER::COMPILATION_FAILED\n" << infoLog << std::endl;
-    }
-
-    return shader;
-}
-
-GLuint CreateShaderProgram(const char* vertexShaderSource, const char* fragmentShaderSource)
-{
-    unsigned int vertexShader = CreateShader(GL_VERTEX_SHADER, vertexShaderSource);
-    // fragment shader
-    unsigned int fragmentShader = CreateShader(GL_FRAGMENT_SHADER, fragmentShaderSource);
-
-    int success;
-    char infoLog[512];
-    // link shaders
-    unsigned int shaderProgram = glCreateProgram();
-    glAttachShader(shaderProgram, vertexShader);
-    glAttachShader(shaderProgram, fragmentShader);
-    glLinkProgram(shaderProgram);
-    // check for linking errors
-    glGetProgramiv(shaderProgram, GL_LINK_STATUS, &success);
-    if (!success) {
-        glGetProgramInfoLog(shaderProgram, 512, NULL, infoLog);
-        std::cout << "ERROR::SHADER::PROGRAM::LINKING_FAILED\n" << infoLog << std::endl;
-    }
-    glDeleteShader(vertexShader);
-    glDeleteShader(fragmentShader);
-
-    return shaderProgram;
-}
-
 
 
 Game& Game::Instance()
@@ -86,43 +41,7 @@ void Game::Init()
 
 void Game::Start()
 {
-
-#ifndef EMSCRIPTEN
-    const char* vertexShaderSource = "#version 330 core\n"
-        "layout (location = 0) in vec2 aPos;\n"
-
-        "void main()\n"
-        "{\n"
-        "   gl_Position = vec4(aPos.x, aPos.y, 0.0, 1.0);\n"
-        "}\0";
-    const char* fragmentShaderSource = "#version 330 core\n"
-        "out vec4 FragColor;\n"
-        "void main()\n"
-        "{\n"
-        "   FragColor = vec4(0.294f, 0.0f, 0.51f, 1.0f);\n"
-        "}\n\0";
-
-#else
-    const char* vertexShaderSource = R"VST(#version 300 es
-precision mediump float;
-
-in vec2 vertexPosition;
-
-void main () {
-  gl_Position = vec4(vertexPosition, 0.0, 1.0);
-})VST";
-
-    const char* fragmentShaderSource = R"FST(#version 300 es
-precision mediump float;
-
-out vec4 triangleColor;
-
-void main() {
-  triangleColor = vec4(0.294, 0.0, 0.51, 1.0);
-})FST";
-#endif
-
-    shaderProgram = CreateShaderProgram(vertexShaderSource, fragmentShaderSource);
+    m_Shader = Shader::CreateFromFile("assets/shaders/vertex.glsl", "assets/shaders/fragment.glsl");
 
     float vertices[] = {
          0.0f, 0.5f,
@@ -133,7 +52,6 @@ void main() {
     unsigned int indices[] = {
         0, 1, 2
     };
-
 
     glGenVertexArrays(1, &vao);
     glBindVertexArray(vao);
@@ -202,7 +120,7 @@ bool Game::Iterate()
     glClear(GL_COLOR_BUFFER_BIT);
 
     glBindVertexArray(vao);
-    glUseProgram(shaderProgram);
+    m_Shader->Use();
     glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_INT, 0);
 
     m_Window->OnUpdate();
