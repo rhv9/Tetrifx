@@ -1,5 +1,6 @@
 #include <pch.h>
 #include "WindowsWindow.h"
+#include "Events/Event.h"
 
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
@@ -9,7 +10,7 @@ void glfwErrorCallbackFunction(int error_code, const char* description)
 	LOG_CORE_CRITICAL("GLFW Error: {}", description);
 }
 
-WindowsWindow::WindowsWindow(const WindowProps& windowProps)
+WindowsWindow::WindowsWindow(const WindowProps& windowProps) : Data(this->KeyPressedEventHandler)
 {
 	Init(windowProps);
 }
@@ -47,9 +48,40 @@ void WindowsWindow::Init(const WindowProps& windowProps)
 
 	glfwMakeContextCurrent(m_Window);
 
+	glfwSetWindowUserPointer(m_Window, &Data);
+
 	glfwSetFramebufferSizeCallback(m_Window, [](GLFWwindow* window, int width, int height)
 		{
 			glViewport(0, 0, width, height);
+		});
+
+	glfwSetKeyCallback(m_Window, [](GLFWwindow* window, int key, int scancode, int action, int mods)
+		{
+			WindowData* windowData = (WindowData*)glfwGetWindowUserPointer(window);
+			switch (action)
+			{
+			case GLFW_PRESS:
+			{
+				KeyPressedEventArg keyPressedEventArg{ key, mods };
+				windowData->KeyPressedEventHandler.Invoke(keyPressedEventArg);
+				break;
+			}
+			case GLFW_RELEASE:
+			{
+
+				break;
+			}
+			case GLFW_REPEAT:
+			{
+				// TODO: Do not need it now
+				break;
+			}
+			}
+		});
+
+	glfwSetMouseButtonCallback(m_Window, [](GLFWwindow* window, int button, int action, int mods)
+		{
+
 		});
 
 	// TODO: This should not be here

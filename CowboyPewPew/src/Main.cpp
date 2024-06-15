@@ -5,5 +5,6 @@ int main()
 {
 	Game::Instance().Init();
 	Game::Instance().Start();
+
 }
 

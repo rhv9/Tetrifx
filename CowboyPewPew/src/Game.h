@@ -13,6 +13,7 @@ public:
 	void Start();
 	void Loop();
 	bool Iterate();
+	void Shutdown();
 
 private:
 	std::chrono::system_clock::time_point m_PreviousTime = std::chrono::system_clock::now();

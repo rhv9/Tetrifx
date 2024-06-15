@@ -25,6 +25,10 @@ private:
 	{
 		uint32_t Width, Height;
 		std::string Title;
+
+		EventHandler<KeyPressedEventArg>& KeyPressedEventHandler;
+
+		WindowData(EventHandler<KeyPressedEventArg>& keyPressedEventHandler) : KeyPressedEventHandler(keyPressedEventHandler) {}
 	};
 
 	GLFWwindow* m_Window;

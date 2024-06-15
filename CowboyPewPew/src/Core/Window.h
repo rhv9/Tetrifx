@@ -1,6 +1,7 @@
 #pragma once
 
 #include <stdint.h>
+#include <Events/Event.h>
 
 struct WindowProps
 {
@@ -19,6 +20,10 @@ public:
 	virtual uint32_t GetHeight() const = 0;
 
 	virtual void Shutdown() = 0;
+
+public:
+
+	EventHandler<KeyPressedEventArg> KeyPressedEventHandler;
 private:
 	
 };

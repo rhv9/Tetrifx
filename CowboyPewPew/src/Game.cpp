@@ -14,11 +14,10 @@
 #endif
 
 #include <Platform/Windows/WindowsWindow.h>
-
+#include <Events/Event.h>
 
 // Define variables
 unsigned int vbo, vao, ebo;
-
 
 Game& Game::Instance()
 {
@@ -68,6 +67,13 @@ void Game::Start()
     glEnableVertexAttribArray(0);
 
 
+    m_Window->KeyPressedEventHandler += [](KeyPressedEventArg& arg)
+        {
+            if (arg.Key == Input::KEY_ESCAPE)
+            {
+                Game::Instance().Shutdown();
+            }
+        };
 
 
     //emscripten_set_main_loop(this->Loop, 60, GLFW_FALSE);
@@ -77,7 +83,7 @@ void Game::Start()
     {
         Iterate();
     }
-
+    
 }
 
 void Game::Loop()
@@ -126,4 +132,9 @@ bool Game::Iterate()
     m_Window->OnUpdate();
 
     return true;
+}
+
+void Game::Shutdown()
+{
+    m_Running = false;
 }

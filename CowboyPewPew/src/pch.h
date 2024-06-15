@@ -3,6 +3,7 @@
 #include <iostream>
 #include <chrono>
 #include <stdint.h>
+#include <vector>
 
 // Mine
 #include <Core/Core.h>
