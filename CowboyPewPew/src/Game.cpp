@@ -73,6 +73,13 @@ void Game::Start()
             {
                 Game::Instance().Shutdown();
             }
+            LOG_CORE_INFO("Key {}", arg.Key);
+        };
+    m_Window->WindowCloseEventHandler += std::bind(&Game::OnWindowClose, this, std::placeholders::_1);
+
+    m_Window->WindowResizeEventHandler += [](WindowResizeEventArg arg)
+        {
+            LOG_CORE_INFO("Window Resize {} {}", arg.Width, arg.Height);
         };
 
 
@@ -137,4 +144,10 @@ bool Game::Iterate()
 void Game::Shutdown()
 {
     m_Running = false;
+}
+
+void Game::OnWindowClose(WindowCloseEventArg arg)
+{
+    LOG_CORE_INFO("Window Closing...");
+    Shutdown();
 }

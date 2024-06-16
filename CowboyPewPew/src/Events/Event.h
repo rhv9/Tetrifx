@@ -5,7 +5,7 @@
 template <class T> 
 class EventHandler
 {
-	using Callback = void(*)(T&);
+	using Callback = std::function<void(T&)>;
 public:
 	void Invoke(T& arg)
 	{
@@ -20,9 +20,22 @@ public:
 		Callbacks.push_back(callbackFunction);
 	}
 
+	void RemoveCallback(Callback callbackFunction)
+	{
+		//std::vector<Callback>::iterator position = std::find(Callbacks.begin(), Callbacks.end(), callbackFunction);
+
+		//if (position != Callbacks.end())
+		//	Callbacks.erase(position);
+	}
+
 	void operator += (Callback callbackFunction)
 	{
-		Callbacks.push_back(callbackFunction);
+		RegisterCallback(callbackFunction);
+	}
+
+	void operator -= (Callback callbackFunction)
+	{
+		RemoveCallback(callbackFunction);
 	}
 
 private:
@@ -34,33 +47,4 @@ struct EventArg
 {
 };
 
-struct KeyPressedEventArg : public EventArg
-{
-	const int Key;
-	const int Mods;
 
-	KeyPressedEventArg(int key, int mods) : Key(key), Mods(mods) {}
-};
-
-struct KeyReleasedEventArg : public EventArg
-{
-	const int Key;
-	const int Mods;
-
-	KeyReleasedEventArg(int key, int mods) : Key(key), Mods(mods) {}
-};
-
-struct MousePressEventArg : public EventArg
-{
-
-};
-
-struct MouseReleaseEventArg : public EventArg
-{
-
-};
-
-struct MouseMoveEventArg : public EventArg
-{
-
-};

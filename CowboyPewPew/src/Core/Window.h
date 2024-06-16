@@ -1,7 +1,7 @@
 #pragma once
 
 #include <stdint.h>
-#include <Events/Event.h>
+#include <Events/InputEvents.h>
 
 struct WindowProps
 {
@@ -24,6 +24,12 @@ public:
 public:
 
 	EventHandler<KeyPressedEventArg> KeyPressedEventHandler;
+	EventHandler<KeyReleasedEventArg> KeyReleasedEventHandler;
+	EventHandler<MouseButtonPressedEventArg> MouseButtonPressedEventHandler;
+	EventHandler<MouseButtonReleasedEventArg> MouseButtonReleasedEventHandler;
+	EventHandler<MouseMoveEventArg> MouseMoveEventHandler;
+	EventHandler<WindowCloseEventArg> WindowCloseEventHandler;
+	EventHandler<WindowResizeEventArg> WindowResizeEventHandler;
 private:
 	
 };

@@ -27,8 +27,27 @@ private:
 		std::string Title;
 
 		EventHandler<KeyPressedEventArg>& KeyPressedEventHandler;
+		EventHandler<KeyReleasedEventArg>& KeyReleasedEventHandler;
+		EventHandler<MouseButtonPressedEventArg>& MouseButtonPressedEventHandler;
+		EventHandler<MouseButtonReleasedEventArg>& MouseButtonReleasedEventHandler;
+		EventHandler<MouseMoveEventArg>& MouseMoveEventHandler;
+		EventHandler<WindowCloseEventArg>& WindowCloseEventHandler;
+		EventHandler<WindowResizeEventArg>& WindowResizeEventHandler;
 
-		WindowData(EventHandler<KeyPressedEventArg>& keyPressedEventHandler) : KeyPressedEventHandler(keyPressedEventHandler) {}
+		WindowData(EventHandler<KeyPressedEventArg>& keyPressedEventHandler,
+			EventHandler<KeyReleasedEventArg>& keyReleasedEventHandler,
+			EventHandler<MouseButtonPressedEventArg>& mouseButtonPressedEventHandler,
+			EventHandler<MouseButtonReleasedEventArg>& mouseButtonReleasedEventHandler,
+			EventHandler<MouseMoveEventArg>& mouseMoveEventHandler,
+			EventHandler<WindowCloseEventArg>& windowCloseEventHandler,
+			EventHandler<WindowResizeEventArg>& windowResizeEventHandler) 
+				: KeyPressedEventHandler(keyPressedEventHandler),
+				  KeyReleasedEventHandler(keyReleasedEventHandler),
+				  MouseButtonPressedEventHandler(mouseButtonPressedEventHandler),
+				  MouseButtonReleasedEventHandler(mouseButtonReleasedEventHandler),
+				  MouseMoveEventHandler(mouseMoveEventHandler),
+				  WindowCloseEventHandler(windowCloseEventHandler),
+				  WindowResizeEventHandler(windowResizeEventHandler) {}
 	};
 
 	GLFWwindow* m_Window;

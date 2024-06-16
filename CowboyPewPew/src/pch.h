@@ -3,7 +3,10 @@
 #include <iostream>
 #include <chrono>
 #include <stdint.h>
+
 #include <vector>
+#include <functional>
+#include <algorithm>
 
 // Mine
 #include <Core/Core.h>

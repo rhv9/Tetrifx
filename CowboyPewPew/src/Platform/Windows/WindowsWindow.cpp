@@ -10,7 +10,7 @@ void glfwErrorCallbackFunction(int error_code, const char* description)
 	LOG_CORE_CRITICAL("GLFW Error: {}", description);
 }
 
-WindowsWindow::WindowsWindow(const WindowProps& windowProps) : Data(this->KeyPressedEventHandler)
+WindowsWindow::WindowsWindow(const WindowProps& windowProps) : Data(KeyPressedEventHandler, KeyReleasedEventHandler, MouseButtonPressedEventHandler, MouseButtonReleasedEventHandler, MouseMoveEventHandler, WindowCloseEventHandler, WindowResizeEventHandler)
 {
 	Init(windowProps);
 }
@@ -81,8 +81,49 @@ void WindowsWindow::Init(const WindowProps& windowProps)
 
 	glfwSetMouseButtonCallback(m_Window, [](GLFWwindow* window, int button, int action, int mods)
 		{
-
+			WindowData* windowData = (WindowData*)glfwGetWindowUserPointer(window);
+			switch (action)
+			{
+			case GLFW_PRESS:
+			{
+				MouseButtonPressedEventArg mouseButtonPressed{ button, mods };
+				windowData->MouseButtonPressedEventHandler.Invoke(mouseButtonPressed);
+			}
+			case GLFW_RELEASE:
+			{
+				MouseButtonReleasedEventArg mouseButtonReleased{ button, mods };
+				windowData->MouseButtonReleasedEventHandler.Invoke(mouseButtonReleased);
+			}
+			default:
+				break;
+			}
 		});
+
+	glfwSetCursorPosCallback(m_Window, [](GLFWwindow* window, double xpos, double ypos)
+		{
+			WindowData* windowData = (WindowData*)glfwGetWindowUserPointer(window);
+
+			MouseMoveEventArg mouseMoveEventArg{ (float)xpos, (float)ypos };
+			windowData->MouseMoveEventHandler.Invoke(mouseMoveEventArg);
+		});
+
+	glfwSetWindowCloseCallback(m_Window, [](GLFWwindow* window)
+		{
+			WindowData* windowData = (WindowData*)glfwGetWindowUserPointer(window);
+
+			WindowCloseEventArg windowCloseEventArg;
+			windowData->WindowCloseEventHandler.Invoke(windowCloseEventArg);
+		});
+
+	glfwSetWindowSizeCallback(m_Window, [](GLFWwindow* window, int width, int height)
+		{
+			WindowData* windowData = (WindowData*)glfwGetWindowUserPointer(window);
+
+			WindowResizeEventArg windowResizeEventArg{ width, height };
+			windowData->WindowResizeEventHandler.Invoke(windowResizeEventArg);
+		});
+
+
 
 	// TODO: This should not be here
 	success = gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
