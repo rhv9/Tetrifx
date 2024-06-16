@@ -67,13 +67,13 @@ void Game::Start()
     glEnableVertexAttribArray(0);
 
 
-    m_Window->KeyPressedEventHandler += [](KeyPressedEventArg& arg)
+    m_Window->KeyReleasedEventHandler += [](KeyReleasedEventArg& arg)
         {
             if (arg.Key == Input::KEY_ESCAPE)
             {
                 Game::Instance().Shutdown();
             }
-            LOG_CORE_INFO("Key {}", arg.Key);
+            LOG_CORE_TRACE("Key Released{}", arg.Key);
         };
     m_Window->WindowCloseEventHandler += std::bind(&Game::OnWindowClose, this, std::placeholders::_1);
 

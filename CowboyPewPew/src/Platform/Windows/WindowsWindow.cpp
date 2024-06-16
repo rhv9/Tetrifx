@@ -10,7 +10,7 @@ void glfwErrorCallbackFunction(int error_code, const char* description)
 	LOG_CORE_CRITICAL("GLFW Error: {}", description);
 }
 
-WindowsWindow::WindowsWindow(const WindowProps& windowProps) : Data(KeyPressedEventHandler, KeyReleasedEventHandler, MouseButtonPressedEventHandler, MouseButtonReleasedEventHandler, MouseMoveEventHandler, WindowCloseEventHandler, WindowResizeEventHandler)
+WindowsWindow::WindowsWindow(const WindowProps& windowProps) : Data(this)
 {
 	Init(windowProps);
 }
@@ -63,12 +63,13 @@ void WindowsWindow::Init(const WindowProps& windowProps)
 			case GLFW_PRESS:
 			{
 				KeyPressedEventArg keyPressedEventArg{ key, mods };
-				windowData->KeyPressedEventHandler.Invoke(keyPressedEventArg);
+				windowData->WindowObj->KeyPressedEventHandler.Invoke(keyPressedEventArg);
 				break;
 			}
 			case GLFW_RELEASE:
 			{
-
+				KeyReleasedEventArg keyReleasedEventArg{ key, mods };
+				windowData->WindowObj->KeyReleasedEventHandler.Invoke(keyReleasedEventArg);
 				break;
 			}
 			case GLFW_REPEAT:
@@ -85,15 +86,17 @@ void WindowsWindow::Init(const WindowProps& windowProps)
 			switch (action)
 			{
 			case GLFW_PRESS:
-			{
-				MouseButtonPressedEventArg mouseButtonPressed{ button, mods };
-				windowData->MouseButtonPressedEventHandler.Invoke(mouseButtonPressed);
-			}
+				{
+					MouseButtonPressedEventArg mouseButtonPressed{ button, mods };
+					windowData->WindowObj->MouseButtonPressedEventHandler.Invoke(mouseButtonPressed);
+					break;
+				}
 			case GLFW_RELEASE:
-			{
-				MouseButtonReleasedEventArg mouseButtonReleased{ button, mods };
-				windowData->MouseButtonReleasedEventHandler.Invoke(mouseButtonReleased);
-			}
+				{
+					MouseButtonReleasedEventArg mouseButtonReleased{ button, mods };
+					windowData->WindowObj->MouseButtonReleasedEventHandler.Invoke(mouseButtonReleased);
+					break;
+				}
 			default:
 				break;
 			}
@@ -104,7 +107,7 @@ void WindowsWindow::Init(const WindowProps& windowProps)
 			WindowData* windowData = (WindowData*)glfwGetWindowUserPointer(window);
 
 			MouseMoveEventArg mouseMoveEventArg{ (float)xpos, (float)ypos };
-			windowData->MouseMoveEventHandler.Invoke(mouseMoveEventArg);
+			windowData->WindowObj->MouseMoveEventHandler.Invoke(mouseMoveEventArg);
 		});
 
 	glfwSetWindowCloseCallback(m_Window, [](GLFWwindow* window)
@@ -112,7 +115,7 @@ void WindowsWindow::Init(const WindowProps& windowProps)
 			WindowData* windowData = (WindowData*)glfwGetWindowUserPointer(window);
 
 			WindowCloseEventArg windowCloseEventArg;
-			windowData->WindowCloseEventHandler.Invoke(windowCloseEventArg);
+			windowData->WindowObj->WindowCloseEventHandler.Invoke(windowCloseEventArg);
 		});
 
 	glfwSetWindowSizeCallback(m_Window, [](GLFWwindow* window, int width, int height)
@@ -120,7 +123,7 @@ void WindowsWindow::Init(const WindowProps& windowProps)
 			WindowData* windowData = (WindowData*)glfwGetWindowUserPointer(window);
 
 			WindowResizeEventArg windowResizeEventArg{ width, height };
-			windowData->WindowResizeEventHandler.Invoke(windowResizeEventArg);
+			windowData->WindowObj->WindowResizeEventHandler.Invoke(windowResizeEventArg);
 		});
 
 
