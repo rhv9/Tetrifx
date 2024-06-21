@@ -16,6 +16,8 @@
 #include <Platform/Windows/WindowsWindow.h>
 #include <Events/Event.h>
 
+#include "Graphics/VertexArray.h"
+
 // Define variables
 unsigned int vbo, vao, ebo;
 
@@ -52,19 +54,11 @@ void Game::Start()
         0, 1, 2
     };
 
-    glGenVertexArrays(1, &vao);
-    glBindVertexArray(vao);
+    VertexDataMap vertexDatas = {
+        { "vec", 2, VertexDataType::Float, VertexDataBool::False}
+    };
 
-    glGenBuffers(1, &vbo);
-    glBindBuffer(GL_ARRAY_BUFFER, vbo);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(float) * 18, vertices, GL_STATIC_DRAW);
-
-    glGenBuffers(1, &ebo);
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(unsigned int) * 3, indices, GL_STATIC_DRAW);
-
-    glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 2 * sizeof(float), (void*)0);
-    glEnableVertexAttribArray(0);
+    va = VertexArray::Create(vertexDatas, vertices, sizeof(vertices) / sizeof(float), indices, sizeof(indices) / sizeof(unsigned int));
 
 
     m_Window->KeyReleasedEventHandler += [](KeyReleasedEventArg& arg)
@@ -132,9 +126,9 @@ bool Game::Iterate()
     glClearColor(1.00f, 0.49f, 0.04f, 1.00f);
     glClear(GL_COLOR_BUFFER_BIT);
 
-    glBindVertexArray(vao);
     m_Shader->Use();
-    glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_INT, 0);
+    va.Bind();
+    glDrawElements(GL_TRIANGLES, va.GetIndicesCount(), GL_UNSIGNED_INT, 0);
 
     m_Window->OnUpdate();
 

@@ -2,6 +2,7 @@
 #include <Core/Window.h>
 
 #include "Graphics/Shader.h"
+#include "Graphics/VertexArray.h"
 
 class Game
 {
@@ -26,5 +27,6 @@ private:
 
 	Scope<Window> m_Window;
 	Ref<Shader> m_Shader;
+	VertexArray va;
 };
 
