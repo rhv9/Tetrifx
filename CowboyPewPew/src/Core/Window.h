@@ -21,8 +21,10 @@ public:
 
 	virtual void Shutdown() = 0;
 
-public:
+	virtual void SetVsync(bool val) = 0;
+	virtual bool GetVsync() const { return vsync; }
 
+public:
 	EventHandler<KeyPressedEventArg> KeyPressedEventHandler;
 	EventHandler<KeyReleasedEventArg> KeyReleasedEventHandler;
 	EventHandler<MouseButtonPressedEventArg> MouseButtonPressedEventHandler;
@@ -30,6 +32,7 @@ public:
 	EventHandler<MouseMoveEventArg> MouseMoveEventHandler;
 	EventHandler<WindowCloseEventArg> WindowCloseEventHandler;
 	EventHandler<WindowResizeEventArg> WindowResizeEventHandler;
-private:
-	
+
+protected:
+	bool vsync = true;
 };

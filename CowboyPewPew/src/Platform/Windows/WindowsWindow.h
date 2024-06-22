@@ -17,6 +17,8 @@ public:
 	virtual uint32_t GetWidth() const;
 	virtual uint32_t GetHeight() const;
 
+	virtual void SetVsync(bool val) override;
+
 private:
 	void Init(const WindowProps& windowProps);
 

@@ -17,6 +17,7 @@
 #include <Events/Event.h>
 
 #include "Graphics/VertexArray.h"
+#include "Graphics/Renderer.h"
 
 // Define variables
 unsigned int vbo, vao, ebo;
@@ -35,56 +36,33 @@ void Game::Init()
 {
     Log::Init();
 
-    m_Window = std::make_unique<WindowsWindow>(WindowProps { 800 , 600, "Cowboy3i" });
+    window = std::make_unique<WindowsWindow>(WindowProps { 800 , 600, "Cowboy3i" });
 
-    m_Running = true;
+    window->KeyPressedEventHandler += [](KeyPressedEventArg& arg)
+        {
+            if (arg.Key == Input::KEY_ESCAPE)
+                Game::Instance().Shutdown();
+            if (arg.Key == Input::KEY_V)
+                Game::Instance().GetWindow()->SetVsync(!Game::Instance().GetWindow()->GetVsync());
+        };
+    window->WindowCloseEventHandler += std::bind(&Game::OnWindowClose, this, std::placeholders::_1);
+
+    Renderer::Init();
+
+    running = true;
 }
 
 void Game::Start()
 {
-    m_Shader = Shader::CreateFromFile("assets/shaders/vertex.glsl", "assets/shaders/fragment.glsl");
-
-    float vertices[] = {
-         0.0f, 0.5f,
-        -0.5f, -0.5f,
-         0.5f, -0.5f,
-    };
-
-    unsigned int indices[] = {
-        0, 1, 2
-    };
-
-    VertexDataMap vertexDatas = {
-        { "vec", 2, VertexDataType::Float, VertexDataBool::False}
-    };
-
-    va = VertexArray::Create(vertexDatas, vertices, sizeof(vertices) / sizeof(float), indices, sizeof(indices) / sizeof(unsigned int));
-
-
-    m_Window->KeyReleasedEventHandler += [](KeyReleasedEventArg& arg)
-        {
-            if (arg.Key == Input::KEY_ESCAPE)
-            {
-                Game::Instance().Shutdown();
-            }
-            LOG_CORE_TRACE("Key Released{}", arg.Key);
-        };
-    m_Window->WindowCloseEventHandler += std::bind(&Game::OnWindowClose, this, std::placeholders::_1);
-
-    m_Window->WindowResizeEventHandler += [](WindowResizeEventArg arg)
-        {
-            LOG_CORE_INFO("Window Resize {} {}", arg.Width, arg.Height);
-        };
-
+    shader = Shader::CreateFromFile("assets/shaders/vertex.glsl", "assets/shaders/fragment.glsl");
 
     //emscripten_set_main_loop(this->Loop, 60, GLFW_FALSE);
 
     // This is the render loop
-    while (m_Running)
+    while (running)
     {
         Iterate();
     }
-    
 }
 
 void Game::Loop()
@@ -100,44 +78,45 @@ void Game::Loop()
 
 bool Game::Iterate()
 {
+
  
-    if (!m_Running)
+    if (!running)
         return false;
 
     // Calculate FPS logic
     {
         auto timeNow = std::chrono::system_clock::now();
-        m_Delta += timeNow - m_PreviousTime;
-        m_PreviousTime = timeNow;
+        delta += timeNow - previousTime;
+        previousTime = timeNow;
 
-        if (m_Delta.count() >= 1.0f)
+        if (delta.count() >= 1.0f)
         {
-            m_Delta--;
-            LOG_CORE_INFO("FPS: {}", m_Fps);
-            m_Fps = 0;
+            delta--;
+            LOG_CORE_INFO("FPS: {}", fps);
+            fps = 0;
         }
-        m_Fps++;
+        fps++;
 
     }
 
     //std::this_thread::sleep_for(std::chrono::seconds(1));
 
-    // Druids are the best
-    glClearColor(1.00f, 0.49f, 0.04f, 1.00f);
-    glClear(GL_COLOR_BUFFER_BIT);
+    Renderer::StartScene({});
 
-    m_Shader->Use();
-    va.Bind();
-    glDrawElements(GL_TRIANGLES, va.GetIndicesCount(), GL_UNSIGNED_INT, 0);
+    shader->Use();
 
-    m_Window->OnUpdate();
+    Renderer::DrawQuad();
+
+    Renderer::EndScene();
+
+    window->OnUpdate();
 
     return true;
 }
 
 void Game::Shutdown()
 {
-    m_Running = false;
+    running = false;
 }
 
 void Game::OnWindowClose(WindowCloseEventArg arg)

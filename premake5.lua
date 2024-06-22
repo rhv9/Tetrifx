@@ -21,6 +21,7 @@ IncludeDir["GLFW"] = "CowboyPewPew/vendor/GLFW/include"
 IncludeDir["Spdlog"] = "CowboyPewPew/vendor/spdlog/include"
 IncludeDir["Glad"] = "CowboyPewPew/vendor/Glad/include"
 IncludeDir["ImGui"] = "CowboyPewPew/vendor/imgui/include"
+IncludeDir["Glm"] = "CowboyPewPew/vendor/glm"
 IncludeDir["Emscripten"] = "CowboyPewPew/vendor/emscripten/system/include/emscripten"
 
 include "CowboyPewPew/vendor/glfw_premake5.lua"
@@ -43,6 +44,9 @@ project "CowboyPewPew"
     {
         "%{prj.name}/src/**.h",
         "%{prj.name}/src/**.cpp",
+        "%{prj.name}/src/**.cpp",
+        "%{prj.name}/vendor/glm/glm/**.inl",
+        "%{prj.name}/vendor/glm/**.hpp",
     }
 
     includedirs
@@ -52,6 +56,7 @@ project "CowboyPewPew"
         "%{IncludeDir.Glad}",
         "%{IncludeDir.Spdlog}",
         "%{IncludeDir.Emscripten}",
+        "%{IncludeDir.Glm}",
         "CowboyPewPew/include",
     }
 
@@ -64,7 +69,7 @@ project "CowboyPewPew"
 
     filter "system:windows"
         systemversion "latest"
-        defines "PLATFORM_WINDOWS"
+        defines { "PLATFORM_WINDOWS", "GLM_ENABLE_EXPERIMENTAL" }
 
     filter "configurations:Debug"
         runtime "Debug"

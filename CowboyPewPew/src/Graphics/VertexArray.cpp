@@ -36,7 +36,6 @@ VertexArray VertexArray::Create(VertexDataMap vertexDatas, float* vertices, uint
         stride += sizeofVertexDataType(vertexData.type) * vertexData.size;
     }
 
-
     int pointer = 0;
     for (int i = 0; i < vertexDatas.size(); ++i)
     {

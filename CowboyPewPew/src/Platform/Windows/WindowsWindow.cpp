@@ -48,6 +48,8 @@ void WindowsWindow::Init(const WindowProps& windowProps)
 
 	glfwMakeContextCurrent(m_Window);
 
+	SetVsync(true);
+
 	glfwSetWindowUserPointer(m_Window, &Data);
 
 	glfwSetFramebufferSizeCallback(m_Window, [](GLFWwindow* window, int width, int height)
@@ -153,6 +155,17 @@ uint32_t WindowsWindow::GetWidth() const
 uint32_t WindowsWindow::GetHeight() const
 {
 	return Data.Height;
+}
+
+void WindowsWindow::SetVsync(bool val)
+{
+	if (val)
+		glfwSwapInterval(1);
+	else
+		glfwSwapInterval(0);
+
+	vsync = val;
+	LOG_CORE_INFO("Vsync:{}", vsync ? "on" : "off");
 }
 
 void WindowsWindow::Shutdown()

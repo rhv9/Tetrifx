@@ -16,17 +16,18 @@ public:
 	bool Iterate();
 	void Shutdown();
 
+	std::unique_ptr<Window>& GetWindow() { return window; }
+
 private:
 	void OnWindowClose(WindowCloseEventArg arg);
 
 private:
-	std::chrono::system_clock::time_point m_PreviousTime = std::chrono::system_clock::now();
-	std::chrono::duration<double> m_Delta = std::chrono::system_clock::now() - std::chrono::system_clock::now(); // Change this hack by properly learning you lazy 
-	int m_Fps = 0;
-	bool m_Running = false;
+	std::chrono::system_clock::time_point previousTime = std::chrono::system_clock::now();
+	std::chrono::duration<double> delta = std::chrono::system_clock::now() - std::chrono::system_clock::now(); // Change this hack by properly learning you lazy 
+	int fps = 0;
+	bool running = false;
 
-	Scope<Window> m_Window;
-	Ref<Shader> m_Shader;
-	VertexArray va;
+	std::unique_ptr<Window> window;
+	Ref<Shader> shader;
 };
 
