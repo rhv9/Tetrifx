@@ -1,6 +1,6 @@
 #pragma once
 
-#include "InputCode.h"
+#include "Input/InputCode.h"
 
 template <class T> 
 class EventHandler

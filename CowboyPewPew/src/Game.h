@@ -3,6 +3,8 @@
 
 #include "Graphics/Shader.h"
 #include "Graphics/VertexArray.h"
+#include "Graphics/Camera.h"
+#include "Graphics/Texture.h"
 
 class Game
 {
@@ -23,11 +25,13 @@ private:
 
 private:
 	std::chrono::system_clock::time_point previousTime = std::chrono::system_clock::now();
-	std::chrono::duration<double> delta = std::chrono::system_clock::now() - std::chrono::system_clock::now(); // Change this hack by properly learning you lazy 
+	std::chrono::duration<double> deltaCummulative = std::chrono::system_clock::now() - std::chrono::system_clock::now(); // Change this hack by properly learning you lazy 
 	int fps = 0;
 	bool running = false;
+	float delta = 0.0f;
 
 	std::unique_ptr<Window> window;
 	Ref<Shader> shader;
+	OrthographicCamera camera;
 };
 

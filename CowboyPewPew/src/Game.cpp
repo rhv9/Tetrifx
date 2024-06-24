@@ -14,7 +14,9 @@
 #endif
 
 #include <Platform/Windows/WindowsWindow.h>
-#include <Events/Event.h>
+#include <Events/Events.h>
+#include "Input/InputCode.h"
+#include "Input/Input.h"
 
 #include "Graphics/VertexArray.h"
 #include "Graphics/Renderer.h"
@@ -29,8 +31,11 @@ Game& Game::Instance()
 }
 
 Game::Game() 
+    : camera(-400/20, 400/20, -300/20, 300/20 )
 {
 }
+
+static glm::vec3 moveVec { 0.0f };
 
 void Game::Init()
 {
@@ -54,10 +59,7 @@ void Game::Init()
 
 void Game::Start()
 {
-    shader = Shader::CreateFromFile("assets/shaders/vertex.glsl", "assets/shaders/fragment.glsl");
-
     //emscripten_set_main_loop(this->Loop, 60, GLFW_FALSE);
-
     // This is the render loop
     while (running)
     {
@@ -86,12 +88,13 @@ bool Game::Iterate()
     // Calculate FPS logic
     {
         auto timeNow = std::chrono::system_clock::now();
-        delta += timeNow - previousTime;
+        delta = ((std::chrono::duration<double>)(timeNow - previousTime)).count();
+        deltaCummulative += timeNow - previousTime;
         previousTime = timeNow;
 
-        if (delta.count() >= 1.0f)
+        if (deltaCummulative.count() >= 1.0f)
         {
-            delta--;
+            deltaCummulative--;
             LOG_CORE_INFO("FPS: {}", fps);
             fps = 0;
         }
@@ -101,11 +104,24 @@ bool Game::Iterate()
 
     //std::this_thread::sleep_for(std::chrono::seconds(1));
 
-    Renderer::StartScene({});
+    glm::vec3 move{ 0.0f };
+    if (Input::IsKeyPressed(Input::KEY_W))
+        move.y += 1.0f;
+    if (Input::IsKeyPressed(Input::KEY_S))
+        move.y -= 1.0f;
+    if (Input::IsKeyPressed(Input::KEY_A))
+        move.x -= 1.0f;
+    if (Input::IsKeyPressed(Input::KEY_D))
+        move.x += 1.0f;
 
-    shader->Use();
+    moveVec += move * delta;
 
-    Renderer::DrawQuad();
+    camera.SetPosition({ 0.0f, 0.0f, 0.0f });
+    Renderer::StartScene(camera.GetViewProjection());
+
+
+
+    Renderer::DrawQuad(moveVec, { 20.0f, 20.0f });
 
     Renderer::EndScene();
 
