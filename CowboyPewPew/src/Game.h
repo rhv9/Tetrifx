@@ -6,6 +6,8 @@
 #include "Graphics/Camera.h"
 #include "Graphics/Texture.h"
 
+#include "Core/LayerStack.h"
+
 class Game
 {
 public:
@@ -31,7 +33,7 @@ private:
 	float delta = 0.0f;
 
 	std::unique_ptr<Window> window;
-	Ref<Shader> shader;
-	OrthographicCamera camera;
+
+	LayerStack layerStack;
 };
 

@@ -22,8 +22,7 @@
 #include "Graphics/Renderer.h"
 #include "Graphics/SubTexture.h"
 
-// Define variables
-unsigned int vbo, vao, ebo;
+#include "Game/GameLayer.h"
 
 Game& Game::Instance()
 {
@@ -32,15 +31,9 @@ Game& Game::Instance()
 }
 
 Game::Game() 
-    : camera(-400/20, 400/20, -300/20, 300/20 )
 {
 }
 
-static glm::vec3 moveVec { 0.0f };
-
-static std::shared_ptr<Texture> spriteSheet;
-static std::shared_ptr<SubTexture> grass;
-static std::shared_ptr<SubTexture> sword;
 
 void Game::Init()
 {
@@ -59,15 +52,18 @@ void Game::Init()
 
     Renderer::Init();
 
-    spriteSheet = CreateRef<Texture>("assets/textures/spritesheet.png");
-    grass = CreateRef<SubTexture>(spriteSheet, glm::vec2 { 0.0f, 1.0f }, glm::vec2 { 32.0f, 32.0f });
-    sword = CreateRef<SubTexture>(spriteSheet, glm::vec2{ 0.0f, 0.0f }, glm::vec2{ 32.0f, 32.0f });
+    layerStack.PushLayer(new GameLayer());
 
     running = true;
 }
 
 void Game::Start()
 {
+    for (Layer* layer : layerStack)
+    {
+        layer->OnBegin();
+    }
+
     //emscripten_set_main_loop(this->Loop, 60, GLFW_FALSE);
     // This is the render loop
     while (running)
@@ -89,8 +85,6 @@ void Game::Loop()
 
 bool Game::Iterate()
 {
-
- 
     if (!running)
         return false;
 
@@ -108,33 +102,12 @@ bool Game::Iterate()
             fps = 0;
         }
         fps++;
-
     }
 
-    //std::this_thread::sleep_for(std::chrono::seconds(1));
-
-    glm::vec3 move{ 0.0f };
-    if (Input::IsKeyPressed(Input::KEY_W))
-        move.y += 1.0f;
-    if (Input::IsKeyPressed(Input::KEY_S))
-        move.y -= 1.0f;
-    if (Input::IsKeyPressed(Input::KEY_A))
-        move.x -= 1.0f;
-    if (Input::IsKeyPressed(Input::KEY_D))
-        move.x += 1.0f;
-
-    moveVec += move * delta;
-
-    camera.SetPosition({ 0.0f, 0.0f, 0.0f });
-    Renderer::StartScene(camera.GetViewProjection());
-
-
-    //Renderer::DrawQuad(moveVec, { 10.0f, 5.0f });
-    //Renderer::DrawQuad({ 0.0f, 0.0f, 0.1f }, {5.0f, 5.0f});
-    Renderer::DrawQuad(moveVec, sword, { 12.0f, 12.0f });
-    Renderer::DrawQuad({ 0.0f, 0.0f, 0.0f }, grass, { 6.0f, 6.0f });
-
-    Renderer::EndScene();
+    for (Layer* layer : layerStack)
+    {
+        layer->OnUpdate(delta);
+    }
 
     window->OnUpdate();
 

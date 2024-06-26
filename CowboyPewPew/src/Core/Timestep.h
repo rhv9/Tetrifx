@@ -3,6 +3,7 @@
 
 class Timestep
 {
+public:
 	Timestep(float time) : time(time) {}
 
 	operator float()
