@@ -11,6 +11,7 @@
 // Mine
 #include <Core/Core.h>
 #include <Core/Logger.h>
+#include "Core/Timestep.h"
 
 #include <glm/glm.hpp>
 #include <glm/gtx/string_cast.hpp>

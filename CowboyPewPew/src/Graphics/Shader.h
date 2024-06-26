@@ -5,10 +5,13 @@ class Shader
 {
 public:
 	Shader(const std::string& vertexSourcePath, const std::string& fragmentSourcePath);
+	Shader(const std::string& path);
+
 	~Shader();
 
 	void UniformInt(const std::string& name, const int val) const;
 	void UniformIntArray(const std::string& name, int* values, uint32_t count) const;
+	void UniformFloatArray(const std::string& name, float* values, uint32_t count) const;
 
 	void UniformFloat(const std::string& name, const float val) const;
 	void UniformFloat2(const std::string& name, const glm::vec2& vector) const;
