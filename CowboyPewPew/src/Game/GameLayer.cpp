@@ -44,9 +44,10 @@ void GameLayer::OnUpdate(Timestep delta)
     Renderer::StartScene(camera.GetViewProjection());
 
     //Renderer::DrawQuad(moveVec, { 10.0f, 5.0f });
-    //Renderer::DrawQuad({ 0.0f, 0.0f, 0.1f }, {5.0f, 5.0f});
+    //Renderer::DrawQuad({ 0.0f, 0.0f, 0.1f }, { 5.0f, 5.0f });
+    Renderer::DrawQuad({ 0.0f, 0.0f, -0.1f }, grass, { 6.0f, 6.0f });
     Renderer::DrawQuad(moveVec, sword, { 12.0f, 12.0f });
-    Renderer::DrawQuad({ 0.0f, 0.0f, 0.0f }, grass, { 6.0f, 6.0f });
+
 
     Renderer::EndScene();
 }

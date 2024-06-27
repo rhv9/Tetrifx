@@ -1,11 +1,6 @@
 #pragma once
 #include <Core/Window.h>
 
-#include "Graphics/Shader.h"
-#include "Graphics/VertexArray.h"
-#include "Graphics/Camera.h"
-#include "Graphics/Texture.h"
-
 #include "Core/LayerStack.h"
 
 class Game

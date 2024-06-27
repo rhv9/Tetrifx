@@ -15,12 +15,9 @@
 
 #include <Platform/Windows/WindowsWindow.h>
 #include <Events/Events.h>
-#include "Input/InputCode.h"
 #include "Input/Input.h"
 
-#include "Graphics/VertexArray.h"
 #include "Graphics/Renderer.h"
-#include "Graphics/SubTexture.h"
 
 #include "Game/GameLayer.h"
 

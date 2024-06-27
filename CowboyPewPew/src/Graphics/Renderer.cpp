@@ -25,8 +25,10 @@ void Renderer::Init()
 
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    glBlendFuncSeparate(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA, GL_ONE, GL_ZERO);
     glEnable(GL_DEPTH_TEST);
-    //glDepthFunc(GL_GREATER);
+    glDepthFunc(GL_LESS);
+    glClearDepth(1);
     //glDepthMask(GL_FALSE);    
 
     //renderData.shaderTexQuad = CreateRef<Shader>("assets/shaders/vertex.glsl", "assets/shaders/fragment.glsl");
@@ -78,8 +80,12 @@ void Renderer::Init()
     renderData.texture->Bind(0);
 }
 
+static glm::mat4 viewProjection;
+
 void Renderer::StartScene(const Camera& camera)
 {
+    viewProjection = camera.GetProjection();
+
     renderData.shaderTexQuad->UniformMat4("u_ViewProjectionMatrix", camera.GetProjection());
     renderData.shaderTexCoordQuad->UniformMat4("u_ViewProjectionMatrix", camera.GetProjection());
 
@@ -92,6 +98,7 @@ void Renderer::DrawQuad(const glm::vec3& position, const glm::vec2& scale)
     renderData.shaderTexQuad->Use();
 
     glm::mat4 transform = glm::scale(glm::identity<glm::mat4>(), { scale, 1.0f }) * glm::translate(glm::identity<glm::mat4>(), position);
+
 
     renderData.shaderTexQuad->UniformMat4("u_Transform", transform);
     renderData.shaderTexQuad->UniformInt("uTextureSampler", 0);
@@ -128,6 +135,11 @@ void Renderer::DrawQuad(const glm::vec3& position, const std::shared_ptr<Texture
     //    1.0f, 0.0f,
     //    1.0f, 1.0f,
     //};
+
+    glm::vec4 finalPosition = viewProjection * transform * glm::vec4(-0.5f, 0.5f, 0.0f, 1.0f);
+
+    LOG_CORE_TRACE("Camera: {}", glm::to_string(finalPosition));
+
 
     renderData.shaderTexCoordQuad->UniformFloatArray("uTexCoords", texCoordsArray, 8);
 

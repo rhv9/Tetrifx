@@ -31,9 +31,10 @@ void main()
 {
 	vec4 texColour = texture(uTextureSampler, vTexCoord);
 
-	//if (texColour.a < 0.1)
-	//	discard;
+//	if (texColour.a == 0)
+//		discard;
 
+	//FragColor = vec4(texColour.a, texColour.a, texColour.a, 1.0);
 	FragColor = texColour;
 	//FragColor = vec4(vTexCoord.x, vTexCoord.y, 0.0, 1.0);
 	//FragColor = vec4(0.255f, 0.3f, 0.0f, 1.0f);
