@@ -136,10 +136,6 @@ void Renderer::DrawQuad(const glm::vec3& position, const std::shared_ptr<Texture
     //    1.0f, 1.0f,
     //};
 
-    glm::vec4 finalPosition = viewProjection * transform * glm::vec4(-0.5f, 0.5f, 0.0f, 1.0f);
-
-    LOG_CORE_TRACE("Camera: {}", glm::to_string(finalPosition));
-
 
     renderData.shaderTexCoordQuad->UniformFloatArray("uTexCoords", texCoordsArray, 8);
 

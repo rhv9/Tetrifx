@@ -48,7 +48,6 @@ void GameLayer::OnUpdate(Timestep delta)
     Renderer::DrawQuad({ 0.0f, 0.0f, -0.1f }, grass, { 6.0f, 6.0f });
     Renderer::DrawQuad(moveVec, sword, { 12.0f, 12.0f });
 
-
     Renderer::EndScene();
 }
 

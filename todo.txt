@@ -1,0 +1,11 @@
+TODO:
+- Levels
+- Add ECS EnTT
+- Add ImGui for debugging
+- Collision system
+- Sound System - Directional sounds someday
+- Saving game state
+- Game ideas, all of them
+- A whole FLIPPING way to add states to things that happen in a game... I have no idea where to start. 
+
+Done:
