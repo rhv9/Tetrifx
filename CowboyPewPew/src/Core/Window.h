@@ -1,7 +1,7 @@
 #pragma once
 
 #include <stdint.h>
-#include <Events/InputEvents.h>
+#include <Events/Events.h>
 
 struct WindowProps
 {

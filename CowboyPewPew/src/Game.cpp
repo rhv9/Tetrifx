@@ -14,13 +14,12 @@
 #endif
 
 #include <Platform/Windows/WindowsWindow.h>
-#include <Events/Event.h>
+#include <Events/Events.h>
+#include "Input/Input.h"
 
-#include "Graphics/VertexArray.h"
 #include "Graphics/Renderer.h"
 
-// Define variables
-unsigned int vbo, vao, ebo;
+#include "Game/GameLayer.h"
 
 Game& Game::Instance()
 {
@@ -31,6 +30,7 @@ Game& Game::Instance()
 Game::Game() 
 {
 }
+
 
 void Game::Init()
 {
@@ -49,15 +49,19 @@ void Game::Init()
 
     Renderer::Init();
 
+    layerStack.PushLayer(new GameLayer());
+
     running = true;
 }
 
 void Game::Start()
 {
-    shader = Shader::CreateFromFile("assets/shaders/vertex.glsl", "assets/shaders/fragment.glsl");
+    for (Layer* layer : layerStack)
+    {
+        layer->OnBegin();
+    }
 
     //emscripten_set_main_loop(this->Loop, 60, GLFW_FALSE);
-
     // This is the render loop
     while (running)
     {
@@ -78,36 +82,29 @@ void Game::Loop()
 
 bool Game::Iterate()
 {
-
- 
     if (!running)
         return false;
 
     // Calculate FPS logic
     {
         auto timeNow = std::chrono::system_clock::now();
-        delta += timeNow - previousTime;
+        delta = ((std::chrono::duration<double>)(timeNow - previousTime)).count();
+        deltaCummulative += timeNow - previousTime;
         previousTime = timeNow;
 
-        if (delta.count() >= 1.0f)
+        if (deltaCummulative.count() >= 1.0f)
         {
-            delta--;
+            deltaCummulative--;
             LOG_CORE_INFO("FPS: {}", fps);
             fps = 0;
         }
         fps++;
-
     }
 
-    //std::this_thread::sleep_for(std::chrono::seconds(1));
-
-    Renderer::StartScene({});
-
-    shader->Use();
-
-    Renderer::DrawQuad();
-
-    Renderer::EndScene();
+    for (Layer* layer : layerStack)
+    {
+        layer->OnUpdate(delta);
+    }
 
     window->OnUpdate();
 

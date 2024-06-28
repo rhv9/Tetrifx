@@ -23,6 +23,9 @@ IncludeDir["Glad"] = "CowboyPewPew/vendor/Glad/include"
 IncludeDir["ImGui"] = "CowboyPewPew/vendor/imgui/include"
 IncludeDir["Glm"] = "CowboyPewPew/vendor/glm"
 IncludeDir["Emscripten"] = "CowboyPewPew/vendor/emscripten/system/include/emscripten"
+IncludeDir["Stb_image"] = "CowboyPewPew/vendor/stb_image"
+IncludeDir["Entt"] = "CowboyPewPew/vendor/entt/include"
+
 
 include "CowboyPewPew/vendor/glfw_premake5.lua"
 include "CowboyPewPew/vendor/Glad"
@@ -44,9 +47,10 @@ project "CowboyPewPew"
     {
         "%{prj.name}/src/**.h",
         "%{prj.name}/src/**.cpp",
-        "%{prj.name}/src/**.cpp",
         "%{prj.name}/vendor/glm/glm/**.inl",
         "%{prj.name}/vendor/glm/**.hpp",
+        "%{prj.name}/vendor/stb_image/**.h",
+		"%{prj.name}/vendor/stb_image/**.cpp",
     }
 
     includedirs
@@ -57,6 +61,8 @@ project "CowboyPewPew"
         "%{IncludeDir.Spdlog}",
         "%{IncludeDir.Emscripten}",
         "%{IncludeDir.Glm}",
+        "%{IncludeDir.Stb_image}",
+        "%{IncludeDir.Entt}",
         "CowboyPewPew/include",
     }
 

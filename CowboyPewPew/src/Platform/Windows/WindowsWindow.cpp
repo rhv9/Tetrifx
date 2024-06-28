@@ -1,6 +1,6 @@
 #include <pch.h>
 #include "WindowsWindow.h"
-#include "Events/Event.h"
+#include "Events/EventHandler.h"
 
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
@@ -35,8 +35,8 @@ void WindowsWindow::Init(const WindowProps& windowProps)
 	int success = glfwInit();
 	ASSERT(success, "Failed to initialize Windows window: glfwInit");
 	
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 5);
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
 	LOG_CORE_INFO("GLFW Version: {} | Platform: {}", glfwGetVersionString(), glfwGetPlatform());
@@ -133,6 +133,18 @@ void WindowsWindow::Init(const WindowProps& windowProps)
 	// TODO: This should not be here
 	success = gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
 	ASSERT(success, "Failed to initialize GLAD");
+
+	LOG_CORE_INFO("OpenGL Info:");
+	LOG_CORE_INFO("  Vendor {0}", (const char*)glGetString(GL_VENDOR));
+	LOG_CORE_INFO("  Renderer {0}", (const char*)glGetString(GL_RENDERER));
+	LOG_CORE_INFO("  Version {0}", (const char*)glGetString(GL_VERSION));
+
+	int versionMajor;
+	int versionMinor;
+	glGetIntegerv(GL_MAJOR_VERSION, &versionMajor);
+	glGetIntegerv(GL_MINOR_VERSION, &versionMinor);
+	LOG_CORE_INFO("  Major Version {0}", versionMajor);
+	LOG_CORE_INFO("  Minor Version {0}", versionMinor);
 }
 
 void WindowsWindow::OnUpdate()
@@ -166,6 +178,11 @@ void WindowsWindow::SetVsync(bool val)
 
 	vsync = val;
 	LOG_CORE_INFO("Vsync:{}", vsync ? "on" : "off");
+}
+
+GLFWwindow* WindowsWindow::GetNativeWindow() const
+{
+	return m_Window;
 }
 
 void WindowsWindow::Shutdown()

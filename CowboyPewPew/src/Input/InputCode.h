@@ -175,5 +175,5 @@ namespace Input {
 	 *  If this bit is set the Num Lock key is enabled and the @ref
 	 *  LOCK_KEY_MODS input mode is set.
 	 */
-	constexpr uint32_t GLFW_MOD_NUM_LOCK = 0x0020;
+	constexpr uint32_t MOD_NUM_LOCK = 0x0020;
 }
