@@ -9,5 +9,5 @@ namespace Input
 	bool IsMouseButtonPressed(uint32_t button);
 	float GetMouseX();
 	float GetMouseY();
-	std::pair<float, float> GetMousePosition();
+	glm::vec2 GetMousePosition();
 }

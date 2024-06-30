@@ -15,7 +15,6 @@ void main()
 {
    gl_Position = u_ViewProjectionMatrix * u_Transform * vec4(aPos, 1.0);
    vTexCoord = vec2(uTexCoords[int(aTexIndexCoords.x)], uTexCoords[int(aTexIndexCoords.y)]);
-	//vTexCoord = aTexIndexCoords;
 }
 
 #type fragment

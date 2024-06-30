@@ -20,20 +20,18 @@ bool Input::IsMouseButtonPressed(uint32_t button)
 
 float Input::GetMouseX()
 {
-    auto [x, y] = GetMousePosition();
-    return x;
+    return GetMousePosition().x;
 }
 
 float Input::GetMouseY()
 {
-    auto [x, y] = GetMousePosition();
-    return y;
+    return GetMousePosition().y;
 }
 
-std::pair<float, float> Input::GetMousePosition()
+glm::vec2 Input::GetMousePosition()
 {
     WindowsWindow* window = (WindowsWindow*)Game::Instance().GetWindow().get();
     double xpos, ypos;
     glfwGetCursorPos(window->GetNativeWindow(), &xpos, &ypos);
-    return std::pair<float, float>((float)xpos, (float)ypos);
+    return { (float)xpos, (float)ypos };
 }

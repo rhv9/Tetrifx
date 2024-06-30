@@ -124,8 +124,20 @@ void WindowsWindow::Init(const WindowProps& windowProps)
 		{
 			WindowData* windowData = (WindowData*)glfwGetWindowUserPointer(window);
 
+			glViewport(0, 0, width, height);
+
+			windowData->WindowObj->SetSize(width, height);
+
 			WindowResizeEventArg windowResizeEventArg{ width, height };
 			windowData->WindowObj->WindowResizeEventHandler.Invoke(windowResizeEventArg);
+		});
+
+	glfwSetScrollCallback(m_Window, [](GLFWwindow* window, double xoffset, double yoffset)
+		{
+			WindowData* windowData = (WindowData*)glfwGetWindowUserPointer(window);
+
+			MouseScrolledEventArg mouseScrollEventArg{ (float)xoffset, (float)yoffset };
+			windowData->WindowObj->MouseScrolledEventHandler.Invoke(mouseScrollEventArg);
 		});
 
 
@@ -167,6 +179,12 @@ uint32_t WindowsWindow::GetWidth() const
 uint32_t WindowsWindow::GetHeight() const
 {
 	return Data.Height;
+}
+
+void WindowsWindow::SetSize(uint32_t width, uint32_t height)
+{
+	Data.Width = width;
+	Data.Height = height;
 }
 
 void WindowsWindow::SetVsync(bool val)

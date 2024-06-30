@@ -1,6 +1,6 @@
 #pragma once
 #include "Core/Layer.h"
-#include "Graphics/Camera.h"
+#include "FreeCameraController.h"
 
 class GameLayer : public Layer
 {
@@ -12,5 +12,5 @@ public:
 	virtual void OnRemove();
 
 private:
-	OrthographicCamera camera;
+	FreeCameraController freeCameraController;
 };

@@ -89,7 +89,8 @@ void Renderer::StartScene(const Camera& camera)
     renderData.shaderTexQuad->UniformMat4("u_ViewProjectionMatrix", camera.GetProjection());
     renderData.shaderTexCoordQuad->UniformMat4("u_ViewProjectionMatrix", camera.GetProjection());
 
-    glClearColor(1.00f, 0.49f, 0.04f, 1.00f);
+    //glClearColor(1.00f, 0.49f, 0.04f, 1.00f);
+    glClearColor(0.20f, 0.29f, 0.84f, 1.00f);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 }
 
@@ -111,13 +112,18 @@ void Renderer::DrawQuad(const glm::vec3& position, const glm::vec2& scale)
 
 void Renderer::DrawQuad(const glm::vec3& position, const std::shared_ptr<Texture>& texture, const glm::vec2& scale)
 {
+    DrawQuad(position, texture.get(), scale);
+}
+
+void Renderer::DrawQuad(const glm::vec3& position, const Texture* texture, const glm::vec2& scale)
+{
     renderData.shaderTexCoordQuad->Use();
 
-    glm::mat4 transform = glm::scale(glm::identity<glm::mat4>(), { scale, 1.0f }) * glm::translate(glm::identity<glm::mat4>(), position);
+    glm::mat4 transform = glm::translate(glm::identity<glm::mat4>(), position) * glm::scale(glm::identity<glm::mat4>(), { scale, 1.0f });
 
     renderData.shaderTexCoordQuad->UniformMat4("u_Transform", transform);
     renderData.shaderTexCoordQuad->UniformInt("uTextureSampler", 0);
-    
+
     const TextureCoords& texCoords = texture->GetTexCoords();
 
     float texCoordsArray[8] =
@@ -127,14 +133,6 @@ void Renderer::DrawQuad(const glm::vec3& position, const std::shared_ptr<Texture
         texCoords.topRight.x, texCoords.bottomLeft.y,
         texCoords.topRight.x, texCoords.topRight.y,
     };
-
-    //float texCoordsArray[8] =
-    //{
-    //    0.0f, 1.0f,
-    //    0.0f, 0.0f,
-    //    1.0f, 0.0f,
-    //    1.0f, 1.0f,
-    //};
 
 
     renderData.shaderTexCoordQuad->UniformFloatArray("uTexCoords", texCoordsArray, 8);

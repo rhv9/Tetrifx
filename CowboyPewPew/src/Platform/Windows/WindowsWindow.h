@@ -17,6 +17,8 @@ public:
 	virtual uint32_t GetWidth() const;
 	virtual uint32_t GetHeight() const;
 
+	virtual void SetSize(uint32_t width, uint32_t height) override;
+
 	virtual void SetVsync(bool val) override;
 
 	GLFWwindow* GetNativeWindow() const;

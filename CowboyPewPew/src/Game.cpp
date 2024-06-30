@@ -35,7 +35,7 @@ Game::Game()
 void Game::Init()
 {
     Log::Init();
-
+    
     window = std::make_unique<WindowsWindow>(WindowProps { 800 , 600, "Cowboy3i" });
 
     window->KeyPressedEventHandler += [](KeyPressedEventArg& arg)

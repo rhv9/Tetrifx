@@ -6,6 +6,8 @@
 
 #include "Input/Input.h"
 
+#include "Game/Level/Level.h"
+#include "Game/SpriteCollection.h"
 
 static glm::vec3 moveVec{ 0.0f };
 
@@ -14,8 +16,9 @@ static std::shared_ptr<SubTexture> grass;
 static std::shared_ptr<SubTexture> sword;
 
 
+static std::shared_ptr<Level> level;
 GameLayer::GameLayer()
-    : camera(-400 / 20, 400 / 20, -300 / 20, 300 / 20)
+    : freeCameraController(1920.0f/1080.0f, 70.0f)
 {
 }
 
@@ -24,29 +27,18 @@ void GameLayer::OnBegin()
     spriteSheet = CreateRef<Texture>("assets/textures/spritesheet.png");
     grass = CreateRef<SubTexture>(spriteSheet, glm::vec2{ 0.0f, 1.0f }, glm::vec2{ 32.0f, 32.0f });
     sword = CreateRef<SubTexture>(spriteSheet, glm::vec2{ 0.0f, 0.0f }, glm::vec2{ 32.0f, 32.0f });
+
+    level = std::make_shared<Level>();
+    SpriteCollection::init();
 }
 
 void GameLayer::OnUpdate(Timestep delta)
 {
-    glm::vec3 move{ 0.0f };
-    if (Input::IsKeyPressed(Input::KEY_W))
-        move.y += 1.0f;
-    if (Input::IsKeyPressed(Input::KEY_S))
-        move.y -= 1.0f;
-    if (Input::IsKeyPressed(Input::KEY_A))
-        move.x -= 1.0f;
-    if (Input::IsKeyPressed(Input::KEY_D))
-        move.x += 1.0f;
+    freeCameraController.OnUpdate(delta);
 
-    moveVec += move * (float)delta;
+    Renderer::StartScene(freeCameraController.GetCamera().GetViewProjection());
 
-    camera.SetPosition({ 0.0f, 0.0f, 0.0f });
-    Renderer::StartScene(camera.GetViewProjection());
-
-    //Renderer::DrawQuad(moveVec, { 10.0f, 5.0f });
-    //Renderer::DrawQuad({ 0.0f, 0.0f, 0.1f }, { 5.0f, 5.0f });
-    Renderer::DrawQuad({ 0.0f, 0.0f, -0.1f }, grass, { 6.0f, 6.0f });
-    Renderer::DrawQuad(moveVec, sword, { 12.0f, 12.0f });
+    level->OnUpdate(delta, { freeCameraController.GetPosition(), 0.0f });
 
     Renderer::EndScene();
 }

@@ -45,6 +45,15 @@ struct MouseMoveEventArg : public EventArg
 	MouseMoveEventArg(float xPos, float yPos) : XPos(xPos), YPos(yPos) {}
 };
 
+struct MouseScrolledEventArg : public EventArg
+{
+	float XOffset, YOffset;
+
+	MouseScrolledEventArg(float xOffset, float yOffset) : XOffset(xOffset), YOffset(yOffset) {}
+};
+
+
+// Window callbacks
 
 struct WindowCloseEventArg : public EventArg
 {

@@ -2,6 +2,8 @@
 
 #include "Input/InputCode.h"
 
+#define EVENT_BIND_MEMBER_FUNCTION(x) std::bind(&x, this, std::placeholders::_1);
+
 template <class T> 
 class EventHandler
 {
