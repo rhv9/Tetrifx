@@ -9,12 +9,9 @@
 #include "Game/Level/Level.h"
 #include "Game/SpriteCollection.h"
 
-static glm::vec3 moveVec{ 0.0f };
+#include "entt.hpp"
 
-static std::shared_ptr<Texture> spriteSheet;
-static std::shared_ptr<SubTexture> grass;
-static std::shared_ptr<SubTexture> sword;
-
+static entt::registry registry;
 
 static std::shared_ptr<Level> level;
 GameLayer::GameLayer()
@@ -24,10 +21,6 @@ GameLayer::GameLayer()
 
 void GameLayer::OnBegin()
 {
-    spriteSheet = CreateRef<Texture>("assets/textures/spritesheet.png");
-    grass = CreateRef<SubTexture>(spriteSheet, glm::vec2{ 0.0f, 1.0f }, glm::vec2{ 32.0f, 32.0f });
-    sword = CreateRef<SubTexture>(spriteSheet, glm::vec2{ 0.0f, 0.0f }, glm::vec2{ 32.0f, 32.0f });
-
     level = std::make_shared<Level>();
     SpriteCollection::init();
 }
@@ -35,6 +28,7 @@ void GameLayer::OnBegin()
 void GameLayer::OnUpdate(Timestep delta)
 {
     freeCameraController.OnUpdate(delta);
+
 
     Renderer::StartScene(freeCameraController.GetCamera().GetViewProjection());
 

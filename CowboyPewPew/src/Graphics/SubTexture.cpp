@@ -6,14 +6,16 @@ SubTexture::SubTexture(const std::shared_ptr<Texture>& texture, const glm::vec2&
 	textureId = texture->GetTextureId();
 	textureParent = texture;
 
+	glm::vec2 pixelCenterOffset{ 1.0f / texture->GetWidth(), 1.0f / texture->GetHeight() };
+
 	const glm::vec2 bottomLeftCoords{
-		(coords.x * cellSize.x) / texture->GetWidth(),
-		(coords.y * cellSize.y) / texture->GetHeight(),
+		(coords.x * cellSize.x) / texture->GetWidth() + pixelCenterOffset.x,
+		(coords.y * cellSize.y) / texture->GetHeight() + pixelCenterOffset.y,
 	};
 
 	const glm::vec2 topRightCoords = {
-		((coords.x + spriteSize.x) * cellSize.x) / texture->GetWidth(),
-		((coords.y + spriteSize.y) * cellSize.y) / texture->GetHeight()
+		((coords.x + spriteSize.x) * cellSize.x) / texture->GetWidth() - pixelCenterOffset.x,
+		((coords.y + spriteSize.y) * cellSize.y) / texture->GetHeight() - pixelCenterOffset.y
 	};
 
 	width = cellSize.x * spriteSize.x;

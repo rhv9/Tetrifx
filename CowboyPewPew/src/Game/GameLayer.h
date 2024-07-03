@@ -2,6 +2,8 @@
 #include "Core/Layer.h"
 #include "FreeCameraController.h"
 
+#include "Scene/Scene.h"
+
 class GameLayer : public Layer
 {
 public:

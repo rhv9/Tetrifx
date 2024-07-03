@@ -6,6 +6,11 @@
 #include "Input/Input.h"
 #include "Game.h"
 
+static glm::vec2 mousePressedPoint;
+static glm::vec2 initialCameraPos;
+static bool mouseHeld = false;
+
+
 FreeCameraController::FreeCameraController(const float aspectRatio, const float zoomLevel)
 	: aspectRatio(aspectRatio), zoomLevel(zoomLevel), bounds({ -aspectRatio * zoomLevel, aspectRatio * zoomLevel, -zoomLevel, zoomLevel }), camera(bounds.Left, bounds.Right, bounds.Bottom, bounds.Top)
 {
@@ -50,6 +55,11 @@ void FreeCameraController::OnUpdate(Timestep ts)
 		rotation += rotationSpeed * ts;
 
 	this->SetPosition(glm::vec3{ m_Position + move, 0.0f });
+
+	if (move != glm::zero<glm::vec2>())
+	{
+		initialCameraPos += move;
+	}
 }
 
 
@@ -59,9 +69,6 @@ void FreeCameraController::CalculateView()
 	camera.SetProjectionMatrix(bounds.Left, bounds.Right, bounds.Bottom, bounds.Top);
 }
 
-static glm::vec2 mousePressedPoint;
-static glm::vec2 initialCameraPos;
-static bool mouseHeld = false;
 
 void FreeCameraController::OnMousePressedCallback(MouseButtonPressedEventArg& e)
 {
