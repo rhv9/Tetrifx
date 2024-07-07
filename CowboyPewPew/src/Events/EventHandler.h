@@ -22,12 +22,17 @@ public:
 		Callbacks.push_back(callbackFunction);
 	}
 
+	// TODO: This needs refactoring
 	void RemoveCallback(Callback callbackFunction)
 	{
-		//std::vector<Callback>::iterator position = std::find(Callbacks.begin(), Callbacks.end(), callbackFunction);
-
-		//if (position != Callbacks.end())
-		//	Callbacks.erase(position);
+		for (int i = 0; i < Callbacks.size(); ++i)
+		{
+			if (Callbacks[i] == callbackFunction)
+			{
+				Callbacks.erase(i);
+				return;
+			}
+		}
 	}
 
 	void operator += (Callback callbackFunction)

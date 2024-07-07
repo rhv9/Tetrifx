@@ -14,5 +14,5 @@ public:
 	virtual void OnRemove();
 
 private:
-	FreeCameraController freeCameraController;
+	std::shared_ptr<CameraController> cameraController;
 };

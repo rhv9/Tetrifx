@@ -14,7 +14,7 @@ Level::Level()
 
 	for (int i = 0; i < width * height; i++)
 	{
-		world[i] = Math::Random::linearInt(0, 2);
+		world[i] = Math::Random::linearInt(1, 3);
 	}
 }
 
@@ -23,7 +23,7 @@ Level::~Level()
 	delete world;
 }
 
-void Level::OnUpdate(Timestep delta, const glm::vec3& moveVec)
+void Level::OnUpdate(Timestep delta)
 {
 	
 	for (int y = 0; y < height; y++)
@@ -33,7 +33,7 @@ void Level::OnUpdate(Timestep delta, const glm::vec3& moveVec)
 			int tile = world[y * width + x];
 			glm::vec3 renderPos = { x * 16, y * 16, 0.0f };
 			//LOG_CORE_INFO("x:{}y:{}", renderPos.x, renderPos.y);
-			renderPos = renderPos - moveVec;
+			//renderPos = renderPos - moveVec;
 			Renderer::DrawQuad(renderPos, SpriteCollection::get(tile), SpriteCollection::Tile_size);
 		}
 

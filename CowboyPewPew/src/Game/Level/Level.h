@@ -6,7 +6,7 @@ public:
 	Level();
 	~Level();
 
-	void OnUpdate(Timestep delta, const glm::vec3& moveVec);
+	void OnUpdate(Timestep delta);
 
 private:
 

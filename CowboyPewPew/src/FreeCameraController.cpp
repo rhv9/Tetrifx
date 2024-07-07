@@ -6,35 +6,19 @@
 #include "Input/Input.h"
 #include "Game.h"
 
-static glm::vec2 mousePressedPoint;
-static glm::vec2 initialCameraPos;
-static bool mouseHeld = false;
-
 
 FreeCameraController::FreeCameraController(const float aspectRatio, const float zoomLevel)
-	: aspectRatio(aspectRatio), zoomLevel(zoomLevel), bounds({ -aspectRatio * zoomLevel, aspectRatio * zoomLevel, -zoomLevel, zoomLevel }), camera(bounds.Left, bounds.Right, bounds.Bottom, bounds.Top)
+	: CameraController(aspectRatio, zoomLevel) 
 {
 	Game::Instance().GetWindow()->MouseScrolledEventHandler += EVENT_BIND_MEMBER_FUNCTION(FreeCameraController::OnMouseScrollCallback);
 	Game::Instance().GetWindow()->WindowResizeEventHandler += EVENT_BIND_MEMBER_FUNCTION(FreeCameraController::OnWindowResizeCallback);
-	
+
 	// Camera dragging
 	Game::Instance().GetWindow()->MouseButtonPressedEventHandler += EVENT_BIND_MEMBER_FUNCTION(FreeCameraController::OnMousePressedCallback);
 	Game::Instance().GetWindow()->MouseButtonReleasedEventHandler += EVENT_BIND_MEMBER_FUNCTION(FreeCameraController::OnMouseReleasedCallback);
 	Game::Instance().GetWindow()->MouseMoveEventHandler += EVENT_BIND_MEMBER_FUNCTION(FreeCameraController::OnMouseMoveCallback);
-
-	SetAspectRatio((float)Game::Instance().GetWindow()->GetWidth() / (float)Game::Instance().GetWindow()->GetHeight());
 }
 
-void FreeCameraController::SetPosition(const glm::vec2& pos)
-{
-	m_Position = pos;
-	camera.SetPosition({ m_Position , 0.0f });
-}
-
-void FreeCameraController::OnResize(uint32_t width, uint32_t height)
-{
-	SetAspectRatio((float)width / (float)height);
-}
 
 void FreeCameraController::OnUpdate(Timestep ts)
 {
@@ -63,11 +47,6 @@ void FreeCameraController::OnUpdate(Timestep ts)
 }
 
 
-void FreeCameraController::CalculateView()
-{
-	bounds = { -aspectRatio * zoomLevel, aspectRatio * zoomLevel, -zoomLevel, zoomLevel };
-	camera.SetProjectionMatrix(bounds.Left, bounds.Right, bounds.Bottom, bounds.Top);
-}
 
 
 void FreeCameraController::OnMousePressedCallback(MouseButtonPressedEventArg& e)
@@ -100,19 +79,19 @@ void FreeCameraController::OnMouseMoveCallback(MouseMoveEventArg& e)
 		glm::vec2 mousePos = Input::GetMousePosition();
 
 		glm::vec2 offset = mousePos - mousePressedPoint;
-		
+
 		glm::vec2 offsetPercentage;
 		offsetPercentage.x = offset.x / windowWidth;
 		offsetPercentage.y = offset.y / windowHeight;
 
 		//offset.x = -offset.x;
 		glm::vec2 result;
-		// how does multiplying this by half make it work????
-		result.x = offsetPercentage.x * bounds.GetWidth() * 0.5f;
-		result.y = offsetPercentage.y * bounds.GetHeight() * 0.5f;
+
+		result.x = offsetPercentage.x * bounds.GetWidth();
+		result.y = offsetPercentage.y * bounds.GetHeight();
 
 		result.x = -result.x;
-		SetPosition(initialCameraPos + result);	
+		SetPosition(initialCameraPos + result);
 	}
 }
 
