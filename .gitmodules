@@ -13,3 +13,4 @@
 [submodule "CowboyPewPew/vendor/imgui"]
 	path = CowboyPewPew/vendor/imgui
 	url = https://github.com/ocornut/imgui
+	branch = docking

@@ -165,7 +165,6 @@ void WindowsWindow::OnUpdate()
 	glfwSwapBuffers(m_Window);
 }
 
-
 WindowsWindow::~WindowsWindow()
 {
 	glfwDestroyWindow(m_Window);
@@ -198,9 +197,9 @@ void WindowsWindow::SetVsync(bool val)
 	LOG_CORE_INFO("Vsync:{}", vsync ? "on" : "off");
 }
 
-GLFWwindow* WindowsWindow::GetNativeWindow() const
+void* WindowsWindow::GetNativeWindow() const
 {
-	return m_Window;
+	return (void*)m_Window;
 }
 
 void WindowsWindow::Shutdown()

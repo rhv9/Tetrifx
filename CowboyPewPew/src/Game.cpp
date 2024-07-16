@@ -27,10 +27,7 @@ Game& Game::Instance()
 	return instance;
 }
 
-Game::Game() 
-{
-}
-
+Game::Game() {}
 
 void Game::Init()
 {
@@ -49,7 +46,9 @@ void Game::Init()
 
     Renderer::Init();
 
+    imGuiLayer = new ImGuiLayer();
     layerStack.PushLayer(new GameLayer());
+    layerStack.PushLayer(imGuiLayer);
 
     running = true;
 }
@@ -101,10 +100,20 @@ bool Game::Iterate()
         fps++;
     }
 
+
     for (Layer* layer : layerStack)
     {
         layer->OnUpdate(delta);
     }
+
+
+    imGuiLayer->BeginRender();
+    for (Layer* layer : layerStack)
+    {
+        layer->OnImGuiRender(delta);
+    }
+    imGuiLayer->EndRender();
+
 
     window->OnUpdate();
 

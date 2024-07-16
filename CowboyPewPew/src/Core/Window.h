@@ -26,6 +26,8 @@ public:
 	virtual void SetVsync(bool val) = 0;
 	virtual bool GetVsync() const { return vsync; }
 
+	virtual void* GetNativeWindow() const = 0;
+
 public:
 	EventHandler<KeyPressedEventArg> KeyPressedEventHandler;
 	EventHandler<KeyReleasedEventArg> KeyReleasedEventHandler;

@@ -19,6 +19,8 @@
 
 #include "Components/Collision.h"
 
+#include "imgui.h"
+
 static entt::registry registry;
 static entt::entity player;
 
@@ -144,6 +146,12 @@ void GameLayer::OnUpdate(Timestep delta)
     }
 
     Renderer::EndScene();
+}
+
+void GameLayer::OnImGuiRender(Timestep delta)
+{
+
+    ImGui::ShowDemoWindow();
 }
 
 void GameLayer::OnRemove()

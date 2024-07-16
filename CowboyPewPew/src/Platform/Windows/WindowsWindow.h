@@ -21,7 +21,7 @@ public:
 
 	virtual void SetVsync(bool val) override;
 
-	GLFWwindow* GetNativeWindow() const;
+	virtual void* GetNativeWindow() const;
 
 private:
 	void Init(const WindowProps& windowProps);

@@ -2,6 +2,7 @@
 #include <Core/Window.h>
 
 #include "Core/LayerStack.h"
+#include "ImGui/ImGuiLayer.h"
 
 class Game
 {
@@ -16,7 +17,7 @@ public:
 	void Shutdown();
 
 	std::unique_ptr<Window>& GetWindow() { return window; }
-
+	 
 private:
 	void OnWindowClose(WindowCloseEventArg arg);
 
@@ -28,6 +29,7 @@ private:
 	float delta = 0.0f;
 
 	std::unique_ptr<Window> window;
+	ImGuiLayer* imGuiLayer;
 
 	LayerStack layerStack;
 };
