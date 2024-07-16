@@ -1,6 +1,7 @@
 #pragma once
 #include "Camera.h"
 #include "Texture.h"
+#include "Shader.h"
 
 class Renderer
 {
@@ -14,6 +15,8 @@ public:
 
 	static void DrawQuad(const glm::vec3& position, const std::shared_ptr<Texture>& texture, const glm::vec2& scale = { 1.0f, 1.0f });
 	static void DrawQuad(const glm::vec3& position, const Texture* texture, const glm::vec2& scale = { 1.0f, 1.0f });
+
+	static void DrawQuadCustomShader(const Ref<Shader>& shader, const glm::vec3& position, const Texture* texture, const glm::vec2& scale = { 1.0f, 1.0f });
 
 	static void EndScene();
 

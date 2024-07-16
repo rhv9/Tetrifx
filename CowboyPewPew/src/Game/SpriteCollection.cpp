@@ -5,11 +5,13 @@
 
 
 static std::shared_ptr<Texture> spritesheet;
-static SubTexture* spriteMap;
+static std::shared_ptr<Texture> squareBox;
 
+static SubTexture* spriteMap;
 static constexpr uint32_t size = 256;
 
-
+// direct use textures, why am I mixing so many different ways to access texture
+Texture* SpriteCollection::squareTileTexture;
 
 void SpriteCollection::init()
 {
@@ -23,6 +25,39 @@ void SpriteCollection::init()
 	spriteMap[fire] = { spritesheet, glm::vec2{ 0, 1 }, SpriteCollection::Tile_size };
 
 	spriteMap[player_head] = { spritesheet, glm::vec2{ 0, 2 }, SpriteCollection::Tile_size };
+
+
+	// Textures
+	{
+		constexpr int width = 16, height = 16, channels = 4;
+		uint32_t pixelData[width * height];
+
+		for (int i = 0; i < width * height; i++)
+			pixelData[i] = 0;
+
+		// I am sorry for you future rhv9... I know you will hate reading this code here.
+		for (int i = 0; i < 2; i++)
+		{
+			for (int x = 0; x < width; x++)
+			{
+				pixelData[x + width * ((~i+1) & (height - 1))] = 0xFF0000FF;
+			}
+		}
+
+
+		for (int y = 0; y < height; y++)
+		{
+			pixelData[0 + width * y] = 0xFF0000FF;
+		}
+
+		for (int y = 0; y < height; y++)
+		{
+			pixelData[(width - 1) + width * y] = 0xFF0000FF;
+		}
+		squareTileTexture = new Texture(pixelData, width, height, channels);
+	}
+
+	LOG_CORE_ERROR("Spritesheet {} Texture {}", *((uint32_t*)spritesheet.get() + 2), *((uint32_t*)squareTileTexture + 2));
 }
 
 SubTexture* SpriteCollection::get(int index)

@@ -23,3 +23,17 @@ SubTexture::SubTexture(const std::shared_ptr<Texture>& texture, const glm::vec2&
 
 	textureCoords = { bottomLeftCoords, topRightCoords };
 }
+
+SubTexture& SubTexture::operator=(SubTexture&& other)
+{
+	this->dataFormat = other.dataFormat;
+	this->height = other.height;
+	this->width = other.width;
+
+	this->textureCoords = other.textureCoords;
+	this->textureId = other.textureId;
+
+	other.SetNullTextureId();
+
+	return *this;
+}

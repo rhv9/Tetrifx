@@ -10,6 +10,7 @@ public:
 	~Shader();
 
 	void UniformInt(const std::string& name, const int val) const;
+	void UniformUInt(const std::string& name, const uint32_t val) const;
 	void UniformIntArray(const std::string& name, int* values, uint32_t count) const;
 	void UniformFloatArray(const std::string& name, float* values, uint32_t count) const;
 

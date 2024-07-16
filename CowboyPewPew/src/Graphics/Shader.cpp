@@ -104,6 +104,8 @@ Shader::Shader(const std::string& path)
 {
     std::string shaderSource = Platform::File::ReadFileAsString(path.c_str());
 
+    ASSERT(shaderSource != "", "File location gave empty string.");
+
     std::unordered_map<GLenum, std::string> shaderSources = PreProcess(shaderSource);
 
     GLuint shaderIDs[2];
@@ -153,6 +155,12 @@ void Shader::UniformInt(const std::string& name, const int val) const
 {
     int location = glGetUniformLocation(m_Program, name.c_str());
     glUniform1i(location, val);
+}
+
+void Shader::UniformUInt(const std::string& name, const uint32_t val) const
+{
+    int location = glGetUniformLocation(m_Program, name.c_str());
+    glUniform1ui(location, val);
 }
 
 void Shader::UniformIntArray(const std::string& name, int* values, uint32_t count) const

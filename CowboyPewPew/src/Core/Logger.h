@@ -30,3 +30,19 @@ private:
 #define LOG_WARN(...)             ::Log::GetClientLogger()->warn(__VA_ARGS__)
 #define LOG_ERROR(...)            ::Log::GetClientLogger()->error(__VA_ARGS__)
 #define LOG_CRITICAL(...)         ::Log::GetClientLogger()->critical(__VA_ARGS__)
+
+
+
+// If core log macros
+#define LOG_CORE_TRACE_IF(x,...)       if(x)::Log::GetCoreLogger()->trace(__VA_ARGS__)
+#define LOG_CORE_INFO_IF(x,...)        if(x)::Log::GetCoreLogger()->info(__VA_ARGS__)
+#define LOG_CORE_WARN_IF(x,...)        if(x)::Log::GetCoreLogger()->warn(__VA_ARGS__)
+#define LOG_CORE_ERROR_IF(x,...)       if(x)::Log::GetCoreLogger()->error(__VA_ARGS__)
+#define LOG_CORE_CRITICAL_IF(x,...)    if(x)::Log::GetCoreLogger()->critical(__VA_ARGS__)
+
+// Client log macros
+#define LOG_TRACE_IF(...)            if(x)::Log::GetClientLogger()->trace(__VA_ARGS__)
+#define LOG_INFO_IF(...)             if(x)::Log::GetClientLogger()->info(__VA_ARGS__)
+#define LOG_WARN_IF(...)             if(x)::Log::GetClientLogger()->warn(__VA_ARGS__)
+#define LOG_ERROR_IF(...)            if(x)::Log::GetClientLogger()->error(__VA_ARGS__)
+#define LOG_CRITICAL_IF(...)         if(x)::Log::GetClientLogger()->critical(__VA_ARGS__)

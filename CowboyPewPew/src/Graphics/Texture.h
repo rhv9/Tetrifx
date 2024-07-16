@@ -16,19 +16,19 @@ class Texture
 {
 public:
 	Texture(const std::string& path);
+	Texture(uint32_t* pixelData, uint32_t width, uint32_t height, uint32_t channels);
 	virtual ~Texture();
 
+	void Bind(uint32_t slot = 0) const;
+	
 	uint32_t GetWidth() const { return width; }
 	uint32_t GetHeight() const { return height; }
-
 	uint32_t GetTextureId() const { return textureId; }
-
-	void Bind(uint32_t slot = 0) const;
-
 	const TextureCoords& GetTexCoords() const { return textureCoords; }
 
+	Texture() {}
 protected:
-	Texture() = default;
+	void SetNullTextureId();
 
 protected:
 	uint32_t textureId;

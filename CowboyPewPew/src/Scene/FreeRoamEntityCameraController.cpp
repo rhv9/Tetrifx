@@ -19,7 +19,7 @@ FreeRoamEntityCameraController::FreeRoamEntityCameraController(const float aspec
 	Game::Instance().GetWindow()->MouseMoveEventHandler += EVENT_BIND_MEMBER_FUNCTION(FreeRoamEntityCameraController::OnMouseMoveCallback);
 }
 
-
+// Will fix dragging and moving entity later. Good enough for now.
 void FreeRoamEntityCameraController::OnUpdate(Timestep ts)
 {
 	glm::vec2 move{ 0.0f };
@@ -53,8 +53,6 @@ void FreeRoamEntityCameraController::OnUpdate(Timestep ts)
 		lastEntityPosition = entityTransform.position;
 	}
 }
-
-
 
 
 void FreeRoamEntityCameraController::OnMousePressedCallback(MouseButtonPressedEventArg& e)
