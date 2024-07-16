@@ -20,7 +20,7 @@ IncludeDir = {}
 IncludeDir["GLFW"] = "CowboyPewPew/vendor/GLFW/include"
 IncludeDir["Spdlog"] = "CowboyPewPew/vendor/spdlog/include"
 IncludeDir["Glad"] = "CowboyPewPew/vendor/Glad/include"
-IncludeDir["ImGui"] = "CowboyPewPew/vendor/imgui/include"
+IncludeDir["ImGui"] = "CowboyPewPew/vendor/imgui/"
 IncludeDir["Glm"] = "CowboyPewPew/vendor/glm"
 IncludeDir["Emscripten"] = "CowboyPewPew/vendor/emscripten/system/include/emscripten"
 IncludeDir["Stb_image"] = "CowboyPewPew/vendor/stb_image"
@@ -29,6 +29,7 @@ IncludeDir["Entt"] = "CowboyPewPew/vendor/entt/include"
 
 include "CowboyPewPew/vendor/glfw_premake5.lua"
 include "CowboyPewPew/vendor/Glad"
+include "CowboyPewPew/vendor/imgui_premake5.lua"
 
 project "CowboyPewPew"
 	location "CowboyPewPew"
@@ -51,6 +52,10 @@ project "CowboyPewPew"
         "%{prj.name}/vendor/glm/**.hpp",
         "%{prj.name}/vendor/stb_image/**.h",
 		"%{prj.name}/vendor/stb_image/**.cpp",
+
+        --"%{prj.name}/vendor/imgui/backends/imgui_impl_opengl3.cpp",
+		--"%{prj.name}/vendor/imgui/backends/imgui_impl_glfw.cpp",
+
     }
 
     includedirs
@@ -63,6 +68,8 @@ project "CowboyPewPew"
         "%{IncludeDir.Glm}",
         "%{IncludeDir.Stb_image}",
         "%{IncludeDir.Entt}",
+        "%{IncludeDir.ImGui}",
+
         "CowboyPewPew/include",
     }
 
@@ -70,6 +77,7 @@ project "CowboyPewPew"
     {
         "GLFW",
         "Glad",
+        "ImGui",
         "opengl32.lib"
     }
 
