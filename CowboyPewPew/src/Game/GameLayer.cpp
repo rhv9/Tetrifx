@@ -1,6 +1,8 @@
 #include "pch.h"
 #include "GameLayer.h"
 
+#include "Game.h"
+
 #include "Graphics/Renderer.h"
 #include "Graphics/SubTexture.h"
 
@@ -60,9 +62,9 @@ void GameLayer::OnBegin()
     // Add collision shape
 
     {
-        //entt::entity e1 = registry.create();
-        //registry.emplace<TransformComponent>(e1, glm::vec3{ 24.0f, 24.0f, 0.4f });
-        //registry.emplace<CollisionBox>(e1, glm::vec3{ 0 }, glm::vec2{ 16.0f, 16.0f });
+        entt::entity e1 = registry.create();
+        registry.emplace<TransformComponent>(e1, glm::vec3{ 32.0f, 48.1f, 0.4f });
+        registry.emplace<CollisionBox>(e1, glm::vec3{ 0 }, glm::vec2{ 16.0f, 16.0f });
 
         entt::entity e2 = registry.create();
         registry.emplace<TransformComponent>(e2, glm::vec3 { 32.0f, 32.0f, 0.4f });
@@ -150,8 +152,22 @@ void GameLayer::OnUpdate(Timestep delta)
 
 void GameLayer::OnImGuiRender(Timestep delta)
 {
+    Game& game = Game::Instance();
 
-    ImGui::ShowDemoWindow();
+    ImGui::Begin("Main Window");
+    ImGui::Text("frame time: %.2f (%dfps)", delta.GetMilliSeconds(), game.gameStats.fps);
+    ImGui::Text("Blocking events: %s",ImGui::IsWindowFocused() ? "Yes" : "No");
+    game.BlockEvents(ImGui::IsWindowFocused());
+    bool vsync = game.GetWindow()->GetVsync();
+    if (ImGui::Checkbox("vsync", &vsync))
+        game.GetWindow()->SetVsync(vsync);
+
+    ImGui::SeparatorText("Camera");
+    ImGui::DragFloat2("pos", (float*)&cameraController->GetPosition());
+    if (ImGui::DragFloat("zoom", (float*)&cameraController->GetZoomLevel()))
+        cameraController->SetZoomLevel(cameraController->GetZoomLevel());
+
+    ImGui::End();
 }
 
 void GameLayer::OnRemove()

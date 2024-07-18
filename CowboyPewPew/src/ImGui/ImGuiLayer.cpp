@@ -10,7 +10,53 @@
 #include "Game.h"
 
 ImGuiLayer::ImGuiLayer()
-    : Layer() {}
+    : Layer() 
+{
+    Window& window = *Game::Instance().GetWindow();
+    window.MouseMoveEventHandler += EVENT_BIND_MEMBER_FUNCTION(ImGuiLayer::OnMouseMove);
+    window.MouseButtonPressedEventHandler += EVENT_BIND_MEMBER_FUNCTION(ImGuiLayer::OnMousePress);
+    window.MouseButtonReleasedEventHandler += EVENT_BIND_MEMBER_FUNCTION(ImGuiLayer::OnMouseRelease);
+    window.KeyPressedEventHandler += EVENT_BIND_MEMBER_FUNCTION(ImGuiLayer::OnKeyPressed);
+    window.KeyReleasedEventHandler += EVENT_BIND_MEMBER_FUNCTION(ImGuiLayer::OnKeyReleased);
+    window.MouseScrolledEventHandler += EVENT_BIND_MEMBER_FUNCTION(ImGuiLayer::OnMouseScroll);
+}
+
+void ImGuiLayer::OnMouseMove(MouseMoveEventArg& e)
+{
+    ImGuiIO& io = ImGui::GetIO();
+    e.isHandled = io.WantCaptureMouse || blockEvents;
+}
+
+void ImGuiLayer::OnMousePress(MouseButtonPressedEventArg& e)
+{
+    ImGuiIO& io = ImGui::GetIO();
+    e.isHandled = io.WantCaptureMouse || blockEvents;
+}
+
+void ImGuiLayer::OnMouseRelease(MouseButtonReleasedEventArg& e)
+{
+    ImGuiIO& io = ImGui::GetIO();
+    e.isHandled = io.WantCaptureMouse || blockEvents;
+}
+
+void ImGuiLayer::OnKeyPressed(KeyPressedEventArg& e)
+{
+    ImGuiIO& io = ImGui::GetIO();
+    e.isHandled = io.WantCaptureKeyboard || blockEvents;
+}
+
+void ImGuiLayer::OnKeyReleased(KeyReleasedEventArg& e)
+{
+    ImGuiIO& io = ImGui::GetIO();
+    e.isHandled = io.WantCaptureKeyboard || blockEvents;
+}
+
+void ImGuiLayer::OnMouseScroll(MouseScrolledEventArg& e)
+{
+    ImGuiIO& io = ImGui::GetIO();
+    e.isHandled = blockEvents;
+}
+
 
 void ImGuiLayer::OnBegin()
 {
@@ -77,3 +123,9 @@ void ImGuiLayer::EndRender()
         glfwMakeContextCurrent(backup_current_context);
     }
 }
+
+void ImGuiLayer::BlockEvents(bool val)
+{
+    blockEvents = val;
+}
+

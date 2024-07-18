@@ -4,9 +4,16 @@
 
 #define EVENT_BIND_MEMBER_FUNCTION(x) std::bind(&x, this, std::placeholders::_1);
 
+struct EventArg
+{
+	bool isHandled = false;
+};
+
 template <class T> 
 class EventHandler
 {
+	static_assert(std::is_base_of<EventArg, T>::value, "T must inherit from EventArg!");
+
 	using Callback = std::function<void(T&)>;
 public:
 	void Invoke(T& arg)
@@ -14,6 +21,9 @@ public:
 		for (int i = 0; i < Callbacks.size(); i++)
 		{
 			Callbacks[i](arg);
+
+			if (arg.isHandled)
+				break;
 		}
 	}
 
@@ -50,8 +60,5 @@ private:
 };
 
 
-struct EventArg
-{
-};
 
 

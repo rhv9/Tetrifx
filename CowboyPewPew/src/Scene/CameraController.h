@@ -32,6 +32,7 @@ public:
 
 	const glm::vec2& GetPosition() const { return m_Position; }
 	OrthographicCamera& GetCamera() { return camera; }
+	const float& GetZoomLevel() { return zoomLevel;}
 
 	const OrthographicCameraBounds& GetBounds() const { return bounds; }
 

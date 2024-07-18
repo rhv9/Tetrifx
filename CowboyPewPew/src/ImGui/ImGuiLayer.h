@@ -1,6 +1,8 @@
 #pragma once
 #include "Core/Layer.h"
 
+#include "Events/Events.h"
+
 class ImGuiLayer : public Layer
 {
 public:
@@ -12,4 +14,17 @@ public:
 
 	void BeginRender();
 	void EndRender();
+
+	void BlockEvents(bool val);
+	bool isEventsBlocked() { return blockEvents; }
+
+private:
+	void OnMouseMove(MouseMoveEventArg& e);
+	void OnMousePress(MouseButtonPressedEventArg& e);
+	void OnMouseRelease(MouseButtonReleasedEventArg& e);
+	void OnKeyPressed(KeyPressedEventArg& e);
+	void OnKeyReleased(KeyReleasedEventArg& e);
+	void OnMouseScroll(MouseScrolledEventArg& e);
+
+	bool blockEvents = false;
 };

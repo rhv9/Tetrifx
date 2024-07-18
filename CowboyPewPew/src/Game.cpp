@@ -39,8 +39,6 @@ void Game::Init()
         {
             if (arg.Key == Input::KEY_ESCAPE)
                 Game::Instance().Shutdown();
-            if (arg.Key == Input::KEY_V)
-                Game::Instance().GetWindow()->SetVsync(!Game::Instance().GetWindow()->GetVsync());
         };
     window->WindowCloseEventHandler += std::bind(&Game::OnWindowClose, this, std::placeholders::_1);
 
@@ -94,10 +92,10 @@ bool Game::Iterate()
         if (deltaCummulative.count() >= 1.0f)
         {
             deltaCummulative--;
-            LOG_CORE_INFO("FPS: {}", fps);
-            fps = 0;
+            i_gameStats.fps = i_gameStats.fpsCounter;
+            i_gameStats.fpsCounter = 0;
         }
-        fps++;
+        i_gameStats.fpsCounter++;
     }
 
 
@@ -123,6 +121,11 @@ bool Game::Iterate()
 void Game::Shutdown()
 {
     running = false;
+}
+
+void Game::BlockEvents(bool val)
+{
+    imGuiLayer->BlockEvents(val);
 }
 
 void Game::OnWindowClose(WindowCloseEventArg arg)

@@ -6,7 +6,6 @@
 
 #include "Scene/Components.h"
 
-
 FreeRoamEntityCameraController::FreeRoamEntityCameraController(const float aspectRatio, const float zoomLevel)
 	: CameraController(aspectRatio, zoomLevel)
 {
@@ -99,7 +98,6 @@ void FreeRoamEntityCameraController::OnMouseMoveCallback(MouseMoveEventArg& e)
 void FreeRoamEntityCameraController::OnMouseScrollCallback(MouseScrolledEventArg& e)
 {
 	SetZoomLevel(zoomLevel + -e.YOffset * 0.1f * zoomLevel);
-	LOG_CORE_INFO("Zoom Level: {}", zoomLevel);
 }
 
 void FreeRoamEntityCameraController::OnWindowResizeCallback(WindowResizeEventArg& e)

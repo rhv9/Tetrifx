@@ -7,13 +7,13 @@
 bool Input::IsKeyPressed(uint32_t keyCode)
 {
     int status = glfwGetKey((GLFWwindow*)Game::Instance().GetWindow()->GetNativeWindow(), static_cast<int>(keyCode));
-    return status == GLFW_PRESS || status == GLFW_REPEAT;
+    return (status == GLFW_PRESS || status == GLFW_REPEAT) && !Game::Instance().isEventsBlocked();
 }
 
 bool Input::IsMouseButtonPressed(uint32_t button)
 {
     int status = glfwGetMouseButton((GLFWwindow*)Game::Instance().GetWindow()->GetNativeWindow(), button);
-    return status == GLFW_PRESS;
+    return status == GLFW_PRESS && !Game::Instance().isEventsBlocked();
 }
 
 float Input::GetMouseX()
