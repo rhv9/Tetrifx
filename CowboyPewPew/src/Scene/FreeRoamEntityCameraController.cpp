@@ -23,13 +23,13 @@ void FreeRoamEntityCameraController::OnUpdate(Timestep ts)
 {
 	glm::vec2 move{ 0.0f };
 
-	if (Input::IsKeyPressed(Input::KEY_W))
+	if (Input::IsKeyPressed(Input::KEY_UP))
 		move.y += zoomLevel * ts;
-	if (Input::IsKeyPressed(Input::KEY_S))
+	if (Input::IsKeyPressed(Input::KEY_DOWN))
 		move.y -= zoomLevel * ts;
-	if (Input::IsKeyPressed(Input::KEY_D))
+	if (Input::IsKeyPressed(Input::KEY_RIGHT))
 		move.x += zoomLevel * ts;
-	if (Input::IsKeyPressed(Input::KEY_A))
+	if (Input::IsKeyPressed(Input::KEY_LEFT))
 		move.x -= zoomLevel * ts;
 
 	if (Input::IsKeyPressed(Input::KEY_LEFT))
@@ -44,12 +44,11 @@ void FreeRoamEntityCameraController::OnUpdate(Timestep ts)
 		initialCameraPos += move;
 	}
 
-	TransformComponent& entityTransform = registry->get<TransformComponent>(entity);
+	auto [entityTransform, entityMove] = registry->get<TransformComponent, MoveComponent>(entity);
 
-	if (lastEntityPosition != entityTransform.position)
+	if (entityMove.isMoving())
 	{
 		this->SetPosition(entityTransform.position);
-		lastEntityPosition = entityTransform.position;
 	}
 }
 

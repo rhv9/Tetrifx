@@ -18,6 +18,8 @@ public:
 
 	static void DrawQuadCustomShader(const Ref<Shader>& shader, const glm::vec3& position, const Texture* texture, const glm::vec2& scale = { 1.0f, 1.0f });
 
-	static void EndScene();
+	static void SetRenderDepthOnly(bool val);
+	static bool IsRenderDepth();
 
+	static void EndScene();
 };

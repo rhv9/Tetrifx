@@ -24,37 +24,38 @@ ImGuiLayer::ImGuiLayer()
 void ImGuiLayer::OnMouseMove(MouseMoveEventArg& e)
 {
     ImGuiIO& io = ImGui::GetIO();
-    e.isHandled = io.WantCaptureMouse || blockEvents;
+    e.isHandled = io.WantCaptureMouse;
 }
 
 void ImGuiLayer::OnMousePress(MouseButtonPressedEventArg& e)
 {
     ImGuiIO& io = ImGui::GetIO();
-    e.isHandled = io.WantCaptureMouse || blockEvents;
+    e.isHandled = io.WantCaptureMouse;
 }
 
 void ImGuiLayer::OnMouseRelease(MouseButtonReleasedEventArg& e)
 {
     ImGuiIO& io = ImGui::GetIO();
-    e.isHandled = io.WantCaptureMouse || blockEvents;
+    e.isHandled = io.WantCaptureMouse;
 }
 
 void ImGuiLayer::OnKeyPressed(KeyPressedEventArg& e)
 {
     ImGuiIO& io = ImGui::GetIO();
-    e.isHandled = io.WantCaptureKeyboard || blockEvents;
+    e.isHandled = io.WantCaptureKeyboard;
 }
 
 void ImGuiLayer::OnKeyReleased(KeyReleasedEventArg& e)
 {
     ImGuiIO& io = ImGui::GetIO();
-    e.isHandled = io.WantCaptureKeyboard || blockEvents;
+    e.isHandled = io.WantCaptureKeyboard;
 }
 
 void ImGuiLayer::OnMouseScroll(MouseScrolledEventArg& e)
 {
     ImGuiIO& io = ImGui::GetIO();
-    e.isHandled = blockEvents;
+    
+    e.isHandled = io.WantCaptureMouse;
 }
 
 

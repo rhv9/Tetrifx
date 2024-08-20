@@ -25,6 +25,4 @@ private:
 
 	entt::entity entity = entt::null;
 	entt::registry* registry = nullptr;
-
-	glm::vec3 lastEntityPosition{ 0.0f };
 };

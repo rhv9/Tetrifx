@@ -15,7 +15,13 @@ static struct RenderData
     Ref<Shader> shaderTexCoordQuad;
 };
 
+static struct RenderState
+{
+    bool renderDepth = false;
+};
+
 static RenderData renderData;
+static RenderState renderState;
 
 void Renderer::Init()
 {
@@ -25,7 +31,7 @@ void Renderer::Init()
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     glBlendFuncSeparate(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA, GL_ONE, GL_ZERO);
     glEnable(GL_DEPTH_TEST);
-    glDepthFunc(GL_LESS);
+    glDepthFunc(GL_LEQUAL);
     glClearDepth(1);
     //glDepthMask(GL_FALSE);    
 
@@ -83,7 +89,9 @@ void Renderer::StartScene(const Camera& camera)
 
     renderData.shaderTexQuad->Use();
     renderData.shaderTexQuad->UniformMat4("u_ViewProjectionMatrix", camera.GetProjection());
+    renderData.shaderTexQuad->UniformInt("uRenderDepth", renderState.renderDepth);
     renderData.shaderTexCoordQuad->Use();
+    renderData.shaderTexCoordQuad->UniformInt("uRenderDepth", renderState.renderDepth);
     renderData.shaderTexCoordQuad->UniformMat4("u_ViewProjectionMatrix", camera.GetProjection());
 
     //glClearColor(1.00f, 0.49f, 0.04f, 1.00f);
@@ -169,6 +177,9 @@ void Renderer::DrawQuadCustomShader(const Ref<Shader>& shader, const glm::vec3& 
     glDrawElements(GL_TRIANGLES, renderData.quadTexCoordVA.GetIndicesCount(), GL_UNSIGNED_INT, 0);
 }
 
+void Renderer::SetRenderDepthOnly(bool val) { renderState.renderDepth = val; }
+
+bool Renderer::IsRenderDepth() { return renderState.renderDepth; }
+
 void Renderer::EndScene()
-{
-}
+{}
