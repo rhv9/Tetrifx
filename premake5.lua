@@ -42,9 +42,7 @@ project "CowboyPewPew"
     objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
 
     pchheader "pch.h"
-    --pchsource "CowboyPewPew/src/pch.cpp"
-
-    --buildoptions { "NoPCH" }
+    pchsource "CowboyPewPew/src/pch.cpp"
 
     files
     {

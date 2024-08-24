@@ -1,17 +1,3 @@
-rule "GenerateWaylandProtocol"
-	display "Wayland Protocol header file generator"
-	fileextension ".xml"
-
-	buildmessage "Compiling"
-
-	propertydefinition {
-		name = "fileName",
-		kind = "string",
-		display = "Generate for the fileName",
-		description = "Path to fileName to generate header file off"
-	}
-
-
 project "GLFW"
     location ("GLFW")
 	kind "StaticLib"
