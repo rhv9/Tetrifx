@@ -6,7 +6,7 @@
 #include "Texture.h"
 #include "SubTexture.h"
 
-static struct RenderData
+struct RenderData
 {
     VertexArray quadVA;
     Ref<Shader> shaderTexQuad;
@@ -52,8 +52,7 @@ void Renderer::Init()
     };
 
     renderData.quadVA = VertexArray::Create(vertexDatas, vertices, sizeof(vertices) / sizeof(float), indices, sizeof(indices) / sizeof(unsigned int));
-
-
+    
     // TextureTexCoord.glsl
     float verticesTexCoord[] = {
         -0.5f,  0.5f, 0.0f, 0.0f, 1.0f,

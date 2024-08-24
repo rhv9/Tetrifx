@@ -13,6 +13,7 @@
 #include <Core/Logger.h>
 #include "Core/Timestep.h"
 
+#define GLM_ENABLE_EXPERIMENTAL
 #include <glm/glm.hpp>
 #include <glm/gtx/string_cast.hpp>
 #include <glm/gtc/type_ptr.hpp>
