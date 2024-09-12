@@ -55,8 +55,8 @@ project "GLFW"
 		
 		defines
 		{
-			"_GLFW_WAYLANDs",
-			"_GLFW_X11s",
+			"_GLFW_WAYLAND",
+			"_GLFW_X11",
 			"_CRT_SECURE_NO_WARNINGSs",
 
 		}
