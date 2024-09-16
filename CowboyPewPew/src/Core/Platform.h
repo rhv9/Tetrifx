@@ -7,4 +7,6 @@ namespace Platform {
 		std::string ReadFileAsString(const char* path);
 	}
 
+	float GetElapsedTime();
+
 }

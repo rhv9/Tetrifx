@@ -17,6 +17,7 @@ namespace SpriteCollection {
 	constexpr int fire = 4;
 
 	constexpr int player_head = 5;
+	constexpr int slime = 6;
 
 	// Textures
 	extern Texture* squareTileTexture;

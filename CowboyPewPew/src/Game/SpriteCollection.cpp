@@ -25,7 +25,7 @@ void SpriteCollection::init()
 	spriteMap[fire] = { spritesheet, glm::vec2{ 0, 1 }, SpriteCollection::Tile_size };
 
 	spriteMap[player_head] = { spritesheet, glm::vec2{ 0, 2 }, SpriteCollection::Tile_size };
-
+	spriteMap[slime] = { spritesheet, glm::vec2{ 1, 2 }, SpriteCollection::Tile_size };
 
 	// Textures
 	{
@@ -56,8 +56,6 @@ void SpriteCollection::init()
 		}
 		squareTileTexture = new Texture(pixelData, width, height, channels);
 	}
-
-	LOG_CORE_ERROR("Spritesheet {} Texture {}", *((uint32_t*)spritesheet.get() + 2), *((uint32_t*)squareTileTexture + 2));
 }
 
 SubTexture* SpriteCollection::get(int index)
