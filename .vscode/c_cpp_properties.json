@@ -1,0 +1,24 @@
+{
+    "configurations": [
+        {
+            "name": "Linux",
+            "includePath": [
+                "${workspaceFolder}/CowboyPewPew/src",
+                "${workspaceFolder}/CowboyPewPew/vendor/GLFW/include",
+                "${workspaceFolder}/CowboyPewPew/vendor/spdlog/include",
+                "${workspaceFolder}/CowboyPewPew/vendor/Glad/include",
+                "${workspaceFolder}/CowboyPewPew/vendor/imgui/",
+                "${workspaceFolder}/CowboyPewPew/vendor/glm",
+                "${workspaceFolder}/CowboyPewPew/vendor/emscripten/system/include/emscripten",
+                "${workspaceFolder}/CowboyPewPew/vendor/stb_image",
+                "${workspaceFolder}/CowboyPewPew/vendor/entt/include"
+            ],
+            "defines": [],
+            "compilerPath": "/usr/bin/gcc",
+            "cStandard": "c23",
+            "cppStandard": "gnu++23",
+            "intelliSenseMode": "linux-gcc-x64"
+        }
+    ],
+    "version": 4
+}
