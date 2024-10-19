@@ -15,7 +15,7 @@ struct RenderData
     Ref<Shader> shaderTexCoordQuad;
 };
 
-static struct RenderState
+struct RenderState
 {
     bool renderDepth = false;
 };

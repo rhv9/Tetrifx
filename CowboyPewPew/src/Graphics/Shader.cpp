@@ -1,5 +1,6 @@
 #include "pch.h"
 #include "Shader.h"
+#include <glad/glad.h>
 
 #include "Core/Platform.h"
 

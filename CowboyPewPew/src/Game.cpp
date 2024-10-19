@@ -19,8 +19,6 @@
 
 #include "Graphics/Renderer.h"
 
-#include "Game/GameLayer.h"
-
 Game& Game::Instance()
 {
 	static Game instance;
@@ -46,7 +44,6 @@ void Game::Init()
     Renderer::Init();
 
     imGuiLayer = new ImGuiLayer();
-    layerStack.PushLayer(new GameLayer());
     layerStack.PushLayer(imGuiLayer);
 
     running = true;

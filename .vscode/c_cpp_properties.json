@@ -11,7 +11,8 @@
                 "${workspaceFolder}/CowboyPewPew/vendor/glm",
                 "${workspaceFolder}/CowboyPewPew/vendor/emscripten/system/include/emscripten",
                 "${workspaceFolder}/CowboyPewPew/vendor/stb_image",
-                "${workspaceFolder}/CowboyPewPew/vendor/entt/include"
+                "${workspaceFolder}/CowboyPewPew/vendor/entt/include",
+                "${workspaceFolder}/Sandbox/src"
             ],
             "defines": [],
             "compilerPath": "/usr/bin/gcc",

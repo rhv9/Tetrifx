@@ -14,13 +14,15 @@ class Game
 {
 public:
 	static Game& Instance();
-
+	
 	Game();
 	void Init();
 	void Start();
 	void Loop();
 	bool Iterate();
 	void Shutdown();
+
+	void PostInit();
 
 	std::unique_ptr<Window>& GetWindow() { return window; }
 	void BlockEvents(bool val);

@@ -1,5 +1,9 @@
 {
     "search.exclude": {
         "CowboyPewPew/vendor/**": true
+    },
+    "makefile.configureOnOpen": false,
+    "files.associations": {
+        "iostream": "cpp"
     }
 }

@@ -1,5 +1,4 @@
 #pragma once
-#include <glad/glad.h>
 
 class Shader
 {
@@ -24,6 +23,6 @@ public:
 
 	void Use();
 private:
-	GLuint m_Program;
+	uint32_t m_Program;
 };
 

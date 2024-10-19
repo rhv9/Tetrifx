@@ -1,6 +1,6 @@
 workspace "CowboyPewPew"
     architecture "x86_64"
-    startproject "CowboyPewPew"
+    startproject "Sandbox"
 
     configurations
     {
@@ -32,14 +32,13 @@ include "CowboyPewPew/vendor/Glad"
 include "CowboyPewPew/vendor/imgui_premake5.lua"
 
 project "CowboyPewPew"
-	location "CowboyPewPew"
-	kind "ConsoleApp"
+	kind "StaticLib"
 	language "C++"
 	cppdialect "C++20"
 	staticruntime "on"
 
-    targetdir ("bin/" .. outputdir .. "/%{prj.name}")
-    objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
+    targetdir ("%{prj.name}/bin/" .. outputdir .. "/%{prj.name}")
+    objdir ("%{prj.name}/bin-int/" .. outputdir .. "/%{prj.name}")
 
     pchheader "pch.h"
     pchsource "CowboyPewPew/src/pch.cpp"
@@ -84,6 +83,9 @@ project "CowboyPewPew"
         systemversion "latest"
         defines { "PLATFORM_WINDOWS", "GLM_ENABLE_EXPERIMENTAL" }
 
+    filter "system:linux"
+        defines { "PLATFORM_LINUX", "GLM_ENABLE_EXPERIMENTAL" }
+    
     filter "configurations:Debug"
         runtime "Debug"
         defines "DEBUG"
@@ -92,4 +94,59 @@ project "CowboyPewPew"
     filter "configurations:Release"
         runtime "Release"
         symbols "on"
+
+
+project "Sandbox"
+	kind "ConsoleApp"
+	language "C++"
+	cppdialect "C++20"
+	staticruntime "on"
+
+    targetdir ("%{prj.name}/bin/" .. outputdir .. "/%{prj.name}")
+    objdir ("%{prj.name}/bin-int/" .. outputdir .. "/%{prj.name}")
+
+    files
+    {
+        "%{prj.name}/src/**.h",
+        "%{prj.name}/src/**.cpp",
+    }
+
+    includedirs
+    {
+        "Sandbox/src",
+        "CowboyPewPew/src",
+        "%{IncludeDir.Spdlog}",
+        "%{IncludeDir.Glm}",
+        "%{IncludeDir.Stb_image}",
+        "%{IncludeDir.Entt}",
+        "%{IncludeDir.ImGui}",
+        "CowboyPewPew/include",
+    }
+
+    links 
+    {
+        "GLFW",
+        "Glad",
+        "ImGui",
+        "GL",
+        "CowboyPewPew"
+    }
+
+    filter "system:windows"
+        systemversion "latest"
+        defines { "PLATFORM_WINDOWS", "GLM_ENABLE_EXPERIMENTAL" }
+    
+    filter "system:linux"
+        defines { "PLATFORM_LINUX", "GLM_ENABLE_EXPERIMENTAL" }
+    
+    filter "configurations:Debug"
+        runtime "Debug"
+        defines "DEBUG"
+        symbols "on"
+
+    filter "configurations:Release"
+        runtime "Release"
+        symbols "on"
+
+
 

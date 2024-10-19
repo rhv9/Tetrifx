@@ -2,6 +2,7 @@
 #include "Game.h"
 #include "Input/Input.h"
 #include "WindowsWindow.h"
+#include <GLFW/glfw3.h>
 
 
 bool Input::IsKeyPressed(uint32_t keyCode)

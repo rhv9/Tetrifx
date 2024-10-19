@@ -3,6 +3,7 @@
 
 #include "Game.h"
 #include "Core/Platform.h"
+#include "Core/Core.h"
 
 #include "Graphics/Renderer.h"
 #include "Graphics/SubTexture.h"
@@ -63,7 +64,6 @@ void GameLayer::OnBegin()
     for (int i = 0; i < 10; i++)
     {
         entt::entity entity = registry.create();
-    
         registry.emplace<TransformComponent>(entity, glm::vec3 { Math::Random::linearInt(0, 16 * 10), Math::Random::linearInt(0, 16 * 10), 0.0f } );
         registry.emplace<VisualComponent>(entity, SpriteCollection::fire);
         registry.emplace<NameComponent>(entity, "fire");

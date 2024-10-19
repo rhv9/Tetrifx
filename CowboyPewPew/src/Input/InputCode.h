@@ -1,5 +1,5 @@
 #pragma once
-
+#include <cstdint>
 // Uses GLFW Key codes as base
 
 namespace Input {
