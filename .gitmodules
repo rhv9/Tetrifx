@@ -1,9 +1,6 @@
 [submodule "CowboyPewPew/vendor/GLFW"]
 	path = CowboyPewPew/vendor/GLFW
 	url = https://github.com/glfw/glfw
-[submodule "CowboyPewPew/vendor/emscripten"]
-	path = CowboyPewPew/vendor/emscripten
-	url = https://github.com/emscripten-core/emscripten
 [submodule "CowboyPewPew/vendor/spdlog"]
 	path = CowboyPewPew/vendor/spdlog
 	url = https://github.com/gabime/spdlog
