@@ -1,6 +1,6 @@
-workspace "CowboyPewPew"
+workspace "Tetrifx"
     architecture "x86_64"
-    startproject "CowboyPewPew"
+    startproject "Tetrifx"
 
     configurations
     {
@@ -15,24 +15,29 @@ workspace "CowboyPewPew"
 
 
 outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
+projectName = "Tetrifx"
 
 IncludeDir = {}
-IncludeDir["GLFW"] = "CowboyPewPew/vendor/GLFW/include"
-IncludeDir["Spdlog"] = "CowboyPewPew/vendor/spdlog/include"
-IncludeDir["Glad"] = "CowboyPewPew/vendor/Glad/include"
-IncludeDir["ImGui"] = "CowboyPewPew/vendor/imgui/"
-IncludeDir["Glm"] = "CowboyPewPew/vendor/glm"
-IncludeDir["Emscripten"] = "CowboyPewPew/vendor/emscripten/system/include/emscripten"
-IncludeDir["Stb_image"] = "CowboyPewPew/vendor/stb_image"
-IncludeDir["Entt"] = "CowboyPewPew/vendor/entt/include"
+IncludeDir["GLFW"]          = projectName .. "/vendor/GLFW/include"
+IncludeDir["Spdlog"]        = projectName .. "/vendor/spdlog/include"
+IncludeDir["Glad"]          = projectName .. "/vendor/Glad/include"
+IncludeDir["ImGui"]         = projectName .. "/vendor/imgui/"
+IncludeDir["Glm"]           = projectName .. "/vendor/glm"
+IncludeDir["Emscripten"]    = projectName .. "/vendor/emscripten/system/include/emscripten"
+IncludeDir["Stb_image"]     = projectName .. "/vendor/stb_image"
+IncludeDir["Entt"]          = projectName .. "/vendor/entt/include"
 
 
-include "CowboyPewPew/vendor/glfw_premake5.lua"
-include "CowboyPewPew/vendor/Glad"
-include "CowboyPewPew/vendor/imgui_premake5.lua"
+include (projectName .. "/vendor/glfw_premake5.lua")
+include (projectName .. "/vendor/Glad")
+include (projectName .. "/vendor/imgui_premake5.lua")
 
-project "CowboyPewPew"
-	location "CowboyPewPew"
+project "Tetrifx"
+    filter "system:windows"
+	    location "%{prj.name}"
+
+    filter {}
+
 	kind "ConsoleApp"
 	language "C++"
 	cppdialect "C++20"
@@ -42,7 +47,7 @@ project "CowboyPewPew"
     objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
 
     pchheader "pch.h"
-    pchsource "CowboyPewPew/src/pch.cpp"
+    pchsource "%{prj.name}/src/pch.cpp"
 
     files
     {
@@ -52,9 +57,6 @@ project "CowboyPewPew"
         "%{prj.name}/vendor/glm/**.hpp",
         "%{prj.name}/vendor/stb_image/**.h",
 		"%{prj.name}/vendor/stb_image/**.cpp",
-
-        --"%{prj.name}/vendor/imgui/backends/imgui_impl_opengl3.cpp",
-		--"%{prj.name}/vendor/imgui/backends/imgui_impl_glfw.cpp",1
     }
 
     includedirs
@@ -69,7 +71,7 @@ project "CowboyPewPew"
         "%{IncludeDir.Entt}",
         "%{IncludeDir.ImGui}",
 
-        "CowboyPewPew/include",
+        "%{prj.name}/include",
     }
 
     links 

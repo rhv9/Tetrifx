@@ -8,7 +8,7 @@
         "type": "cppbuild",
         "command": "make",
         "args": [
-          "-j"
+          "-j 12"
         ],
         "group": "build", 
         "presentation": {

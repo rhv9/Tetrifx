@@ -3,15 +3,14 @@
         {
             "name": "Linux",
             "includePath": [
-                "${workspaceFolder}/CowboyPewPew/src",
-                "${workspaceFolder}/CowboyPewPew/vendor/GLFW/include",
-                "${workspaceFolder}/CowboyPewPew/vendor/spdlog/include",
-                "${workspaceFolder}/CowboyPewPew/vendor/Glad/include",
-                "${workspaceFolder}/CowboyPewPew/vendor/imgui/",
-                "${workspaceFolder}/CowboyPewPew/vendor/glm",
-                "${workspaceFolder}/CowboyPewPew/vendor/emscripten/system/include/emscripten",
-                "${workspaceFolder}/CowboyPewPew/vendor/stb_image",
-                "${workspaceFolder}/CowboyPewPew/vendor/entt/include"
+                "${workspaceFolder}/Tetrifx/src",
+                "${workspaceFolder}/Tetrifx/vendor/GLFW/include",
+                "${workspaceFolder}/Tetrifx/vendor/spdlog/include",
+                "${workspaceFolder}/Tetrifx/vendor/Glad/include",
+                "${workspaceFolder}/Tetrifx/vendor/imgui/",
+                "${workspaceFolder}/Tetrifx/vendor/glm",
+                "${workspaceFolder}/Tetrifx/vendor/stb_image",
+                "${workspaceFolder}/Tetrifx/vendor/entt/include"
             ],
             "defines": [],
             "compilerPath": "/usr/bin/gcc",
