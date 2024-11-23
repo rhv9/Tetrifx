@@ -2,8 +2,6 @@
 
 #include <glad/glad.h>
 
-
-
 enum VertexDataType : int
 {
 	Float = GL_FLOAT,
@@ -35,7 +33,7 @@ public:
 
 	int GetIndicesCount() const { return iboCount; }
 
-	static VertexArray Create(VertexDataMap vertexDatas, float* vertices, uint32_t verticesSize, uint32_t* indices, uint32_t indicesSize);
+	static VertexArray Create(VertexDataMap vertexDatas, float* vertices, uint32_t verticesCount, uint32_t* indices, uint32_t indicesCount);
 
 private:
 	GLuint vao = -1, vbo = -1, ibo = -1;

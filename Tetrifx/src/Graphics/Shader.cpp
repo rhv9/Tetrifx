@@ -98,6 +98,8 @@ Shader::Shader(const std::string& vertexSourcePath, const std::string& fragmentS
     glDeleteShader(fragmentShader);
 
     m_Program = shaderProgram;
+
+    LOG_CORE_INFO("Shader created successfully: {}, {}", vertexSourcePath, fragmentSourcePath);
 }
 
 Shader::Shader(const std::string& path)
@@ -138,6 +140,8 @@ Shader::Shader(const std::string& path)
         glDeleteShader(id);
 
     m_Program = shaderProgram;
+
+    LOG_CORE_INFO("Shader created successfully: {}", path);
 }
 
 

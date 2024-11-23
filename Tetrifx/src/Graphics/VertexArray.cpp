@@ -13,7 +13,7 @@ static int sizeofVertexDataType(VertexDataType vertexDataType)
     return -1;
 }
 
-VertexArray VertexArray::Create(VertexDataMap vertexDatas, float* vertices, uint32_t verticesSize, uint32_t* indices, uint32_t indicesSize)
+VertexArray VertexArray::Create(VertexDataMap vertexDatas, float* vertices, uint32_t verticesCount, uint32_t* indices, uint32_t indicesCount)
 {
     VertexArray vertexArray;
 
@@ -22,12 +22,12 @@ VertexArray VertexArray::Create(VertexDataMap vertexDatas, float* vertices, uint
 
     glGenBuffers(1, &vertexArray.vbo);
     glBindBuffer(GL_ARRAY_BUFFER, vertexArray.vbo);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(float) * verticesSize, vertices, GL_STATIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(float) * verticesCount, vertices, GL_STATIC_DRAW);
 
     glGenBuffers(1, &vertexArray.ibo);
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, vertexArray.ibo);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(unsigned int) * indicesSize, indices, GL_STATIC_DRAW);
-    vertexArray.iboCount = indicesSize;
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(unsigned int) * indicesCount, indices, GL_STATIC_DRAW);
+    vertexArray.iboCount = indicesCount;
 
     // Calculate stride
     int stride = 0;

@@ -60,6 +60,11 @@ void FreeRoamEntityCameraController::OnMousePressedCallback(MouseButtonPressedEv
 		mousePressedPoint = Input::GetMousePosition();
 		initialCameraPos = GetPosition();
 		mouseHeld = true;
+
+		LOG_CORE_INFO("Intial camera pos x:{}, y:{}", initialCameraPos.x, initialCameraPos.y);
+		LOG_CORE_INFO("Intial mousepress pos x:{}, y:{}", mousePressedPoint.x, mousePressedPoint.y);
+		LOG_CORE_INFO("Bounds width:{}, height:{}", bounds.GetWidth(), bounds.GetHeight());
+
 	}
 }
 
@@ -101,6 +106,7 @@ void FreeRoamEntityCameraController::OnMouseScrollCallback(MouseScrolledEventArg
 
 void FreeRoamEntityCameraController::OnWindowResizeCallback(WindowResizeEventArg& e)
 {
+	LOG_CORE_INFO("Resize ({},{})", e.Width, e.Height);
 	SetAspectRatio((float)e.Width / (float)e.Height);
 }
 
